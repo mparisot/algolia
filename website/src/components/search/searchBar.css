@@ -24,6 +24,11 @@
     margin-right: 10px;
 }
 
+.searchBar-error {
+    color: red;
+    font-size: 0.8rem;
+}
+
 @media only screen and (max-width: 46.875rem /* 750px */) {
 
     .searchBar {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'debounce';
 
 import { movieManager } from './MovieManager';
@@ -6,6 +7,10 @@ import { movieManager } from './MovieManager';
 import "./searchBar.css";
 
 export default class SearchBar extends React.Component {
+
+    static propTypes = {
+        onSearchResultsUpdated: PropTypes.func.isRequired,
+    }
 
     state = {
         error: null,
@@ -23,7 +28,7 @@ export default class SearchBar extends React.Component {
             this.props.onSearchResultsUpdated(results);
         }).catch(err => {
             this.setState({
-                error: err,
+                error: err.message,
             });
         });
     }, 300); // debounce to avoid too much flickering when the user is typing
@@ -43,6 +48,7 @@ export default class SearchBar extends React.Component {
                     placeholder="Type to search your movie"
                     onChange={this.onInputChange}
                 />
+                {this.state.error && <div className="searchBar-error">{this.state.error}</div> }
             </div>
         );
     }

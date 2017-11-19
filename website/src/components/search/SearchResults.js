@@ -1,35 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import { SearchResult, searchResultPropType } from "./SearchResult";
 
 import "./searchResults.css";
 
+export default class SearchResults extends React.Component {
 
-class SearchResult extends React.Component {
-
-    deleteResult = () => {
-        this.props.onDeleteResult(this.props.result);
+    static propTypes = {
+        searchResults: PropTypes.arrayOf(PropTypes.shape(searchResultPropType)).isRequired,
+        onDeleteResult: PropTypes.func.isRequired,
     };
 
-    render() {
-        const {result} = this.props;
-
-        return (
-            <div className="searchResult">
-                <div className="searchResult-poster"><img src={result.image} alt={`${result.title}'s poster`}/></div>
-                <div className="searchResult-info">
-                    <div className="searchResult-title">{result.title}</div>
-                    <div className="searchResult-genres">
-                        {result.genre.map((genre, index) => <span key={index} className="searchResult-genre">{genre}</span>)}
-                    </div>
-                </div>
-                <div className="searchResult-actions">
-                    <div className="searchResult-actions-delete" onClick={this.deleteResult}>Delete</div>
-                </div>
-            </div>
-        );
-    }
-}
-
-export default class SearchResults extends React.Component {
     render() {
         return (
             <div className="searchResults">
