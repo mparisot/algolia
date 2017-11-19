@@ -10,7 +10,7 @@ import '../styles/style.css';
 class Main extends React.Component {
 
     state = {
-        sectionDisplayed: 'addMovie',
+        sectionDisplayed: 'search',
     };
 
     switchSection = () => { // add a proper router when we have more than 2 sections
