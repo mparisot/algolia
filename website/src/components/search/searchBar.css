@@ -24,19 +24,6 @@
     margin-right: 10px;
 }
 
-.searchBar-input:focus {
-    width: calc(100% - 80px);
-}
-
-.searchBar-cancel {
-    color: var(--primary-color);
-    font-size: 1.1rem;
-    font-weight: bold;
-    -webkit-appearance: none;
-    border: none;
-    background: none;
-}
-
 @media only screen and (max-width: 46.875rem /* 750px */) {
 
     .searchBar {

@@ -16,6 +16,8 @@
 .searchResult-poster > img {
     display: block;
     width: 80px;
+    min-width: 80px;
+    min-height: 120px; /* avoid things to move around when the image is loaded */
 }
 
 .searchResult-info {
@@ -63,4 +65,21 @@
 .searchResults-logo > img {
     width: 100px;
     margin-left: 5px;
+}
+
+.searchResults-empty::before {
+    content: '\279C';
+    display: block;
+    font-size: 4rem;
+    font-weight: normal;
+    margin-bottom: 25px;
+    transform: rotate(-90deg);
+}
+
+.searchResults-empty {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-align: center;
+    margin: 25px 10px 10px;
 }

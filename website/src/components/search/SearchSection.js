@@ -2,11 +2,26 @@ import React from 'react';
 import SearchResults from "./SearchResults";
 import SearchBar from "./SearchBar";
 
-export default function (props) {
-    return (
-        <div className="searchSection">
-            <SearchBar/>
-            <SearchResults/>
-        </div>
-    );
+class SearchSection extends React.Component {
+
+    state = {
+        searchResults: [],
+    };
+
+    updateSearchResult = (results) => {
+        this.setState({
+            searchResults: results,
+        });
+    };
+
+    render() {
+        return (
+            <div className="searchSection">
+                <SearchBar onSearchResultsUpdated={this.updateSearchResult}/>
+                <SearchResults searchResults={this.state.searchResults}/>
+            </div>
+        );
+    }
 }
+
+export default SearchSection;
