@@ -10,7 +10,7 @@ export default class SearchBar extends React.Component {
 
     static propTypes = {
         onSearchResultsUpdated: PropTypes.func.isRequired,
-    }
+    };
 
     state = {
         error: null,

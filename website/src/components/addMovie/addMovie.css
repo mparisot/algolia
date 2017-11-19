@@ -16,7 +16,8 @@
 }
 
 .addMovieSection-fields input {
-    width: 100%;
+    max-width: 100%;
+    flex-grow: 1;
     border: 1px solid var(--primary-color);
     border-radius: 16px;
     -webkit-appearance: none;
@@ -36,14 +37,23 @@
     align-self: center;
 }
 
+.addMovieSection-error {
+    width: 100%;
+    font-size: 0.8rem;
+    color: red;
+    text-align: center;
+    margin-top: 2px;
+}
+
 @media only screen and (min-width: 46.875rem /* 750px */) {
 
     .addMovieSection-fields {
         flex-direction: row;
+        flex-wrap: wrap;
         margin: 10px;
     }
 
     .addMovieSection-fields label {
-        width: 200px;
+        width: 150px;
     }
 }
