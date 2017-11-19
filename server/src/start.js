@@ -4,8 +4,10 @@ const algoliasearch = require('algoliasearch');
 
 const fs = require('fs');
 
+let algoliaKey;
+
 try {
-    const algoliaKey = fs.readFileSync('./algoliaKey', 'utf8');
+    algoliaKey = fs.readFileSync('./algoliaKey', 'utf8');
 
     if(!algoliaKey) {
         console.error('You need to add the algolia admin API key in the "algoliaKey" file');
