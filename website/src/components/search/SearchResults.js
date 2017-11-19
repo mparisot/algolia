@@ -45,6 +45,7 @@ export default class SearchResults extends React.Component {
                         <div className="searchResult-genres"><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Drama</span><span className="searchResult-genre">Comedy</span></div>
                     </div>
                 </div>
+                <div className="searchResults-logo">powered by <img src="images/algolia.svg" alt="Powered by Algolia"/></div>
             </div>
         );
     }
