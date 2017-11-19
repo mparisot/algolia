@@ -1,7 +1,7 @@
 import React from 'react';
 import debounce from 'debounce';
 
-import { MovieSearcher } from './MovieSearcher';
+import { movieManager } from './MovieManager';
 
 import "./searchBar.css";
 
@@ -11,16 +11,12 @@ export default class SearchBar extends React.Component {
         error: null,
     };
 
-    componentWillMount() {
-        this.movieSearcher = new MovieSearcher();
-    }
-
     onInputChange = (event) => this.doSearch(event.target.value);
 
     doSearch = debounce((searchedText) => {
         if(searchedText === '') return this.props.onSearchResultsUpdated([]);
 
-        this.movieSearcher.search(searchedText).then(results => {
+        movieManager.search(searchedText).then(results => {
             this.setState({
                 error: null,
             });

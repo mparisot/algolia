@@ -72,8 +72,10 @@
     display: block;
     font-size: 4rem;
     font-weight: normal;
-    margin-bottom: 25px;
+    width: 50px;
+    margin: 0 auto 25px;
     transform: rotate(-90deg);
+    z-index: -1;
 }
 
 .searchResults-empty {

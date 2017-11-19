@@ -1,0 +1,14 @@
+{
+  "name": "algola-recruitement-server",
+  "version": "1.0.0",
+  "description": "Recruitement project",
+  "author": "matparisot",
+  "dependencies": {
+    "algoliasearch": "^3.24.6",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/start.js"
+  }
+}
