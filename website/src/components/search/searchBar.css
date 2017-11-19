@@ -1,6 +1,14 @@
 .searchBar {
-    margin: 10px;
+    margin: 10px auto;
     display: flex;
+    max-width: 700px;
+    overflow: hidden;
+}
+
+.searchBar-label { /* it's only there for accessibility so move it out of the screen */
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
 }
 
 .searchBar-input {
@@ -24,4 +32,15 @@
     color: var(--primary-color);
     font-size: 1.1rem;
     font-weight: bold;
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+}
+
+@media only screen and (max-width: 46.875rem /* 750px */) {
+
+    .searchBar {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }
