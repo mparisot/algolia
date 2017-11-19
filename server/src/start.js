@@ -4,7 +4,17 @@ const algoliasearch = require('algoliasearch');
 
 const fs = require('fs');
 
-const algoliaKey = fs.readFileSync('./algoliaKey', 'utf8');
+try {
+    const algoliaKey = fs.readFileSync('./algoliaKey', 'utf8');
+
+    if(!algoliaKey) {
+        console.error('You need to add the algolia admin API key in the "algoliaKey" file');
+        return;
+    }
+} catch(e) {
+    console.error('You need to create a file name "algoliaKey" at the root of the server and copy paste the algolia admin API key in it before starting the server');
+    return;
+}
 
 const algoliaSearch = algoliasearch('YBSULRJ8E6', algoliaKey);
 const movieIndex = algoliaSearch.initIndex('movies');
