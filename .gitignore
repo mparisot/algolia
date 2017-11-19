@@ -4,5 +4,5 @@ node_modules
 .DS_Store
 .installed
 *.iml
-
-
+movies.json
+algoliaKey

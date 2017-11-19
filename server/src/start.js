@@ -2,7 +2,11 @@ const express = require('express');
 
 const algoliasearch = require('algoliasearch');
 
-const algoliaSearch = algoliasearch('YBSULRJ8E6', 'a6486bc6e4328b35565394d705a03cb8');
+const fs = require('fs');
+
+const algoliaKey = fs.readFileSync('./algoliaKey', 'utf8');
+
+const algoliaSearch = algoliasearch('YBSULRJ8E6', algoliaKey);
 const movieIndex = algoliaSearch.initIndex('movies');
 
 const app = express();
