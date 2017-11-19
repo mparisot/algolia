@@ -19,7 +19,15 @@ class MovieManager {
                 'Content-Type': 'application/json',
             }),
             body: JSON.stringify(movieData),
-        }).then(response => response.json());
+        }).then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw err;
+                });
+            }
+
+            return response.json()
+        });
     }
 
     delete(movieId) {

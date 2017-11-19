@@ -5,12 +5,20 @@ const { movieManager } = require('./MovieManager');
 const router = express.Router();
 
 router.route('/movies/').post(function (req, res) {
-    movieManager.add(req.body)
-        .then(content => {
-            console.log('content',content);
-            res.json(Object.assign({ objectID: content.objectID }, req.body));
-        })
-        .catch(err => res.status(500).json(err));
+    const errors = [];
+    if(!req.body.title) errors.push({ field: 'title', error: 'The title is mandatory' });
+    if(!req.body.image) errors.push({ field: 'image', error: 'The image is mandatory' });
+
+    if(errors.length > 0) {
+        res.status(400).json({ errors });
+    } else {
+        movieManager.add(req.body)
+            .then(content => {
+                console.log('content',content);
+                res.json(Object.assign({ objectID: content.objectID }, req.body));
+            })
+            .catch(err => res.status(500).json(err));
+    }
 });
 
 /* DELETE a movie */

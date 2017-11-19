@@ -35,13 +35,13 @@ class AddMovieSection extends React.Component {
         else if(!this.state.movieData.image.startsWith('http://') && !this.state.movieData.image.startsWith('https://')) errors.image = 'The image is not a valid URL';
 
         return errors;
-    }
+    };
 
     addMovie = (event) => {
         event.preventDefault();
 
         const errors = this.validateForm();
-        console.log('ERRORs', errors);
+
         if(Object.keys(errors).length > 0) {
             this.setState({
                 errors: Object.assign({}, this.state.errors, errors),
@@ -60,7 +60,19 @@ class AddMovieSection extends React.Component {
             },
             errors: {},
         });
-        movieManager.add(movieData).then(addedMovie => this.props.onAddMovie(addedMovie));
+        movieManager.add(movieData)
+            .then(addedMovie => this.props.onAddMovie(addedMovie))
+            .catch(({ errors }) => {
+                // manage error side errors
+                const flattenedErrors = errors.reduce((reducedErrors, error) => {
+                    reducedErrors[error.field] = error.error;
+                    return reducedErrors;
+                }, {});
+
+                this.setState({
+                    errors: Object.assign({}, this.state.errors, flattenedErrors),
+                });
+            });
     };
 
     render() {
