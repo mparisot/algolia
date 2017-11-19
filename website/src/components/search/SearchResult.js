@@ -29,7 +29,7 @@ export class SearchResult extends React.Component {
                 <div className="searchResult-info">
                     <div className="searchResult-title">{result.title}</div>
                     <div className="searchResult-genres">
-                        {result.genre.map((genre, index) => <span key={index} className="searchResult-genre">{genre}</span>)}
+                        {result.genre && result.genre.map((genre, index) => <span key={index} className="searchResult-genre">{genre}</span>)}
                     </div>
                 </div>
                 <div className="searchResult-actions">

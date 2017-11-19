@@ -19,6 +19,10 @@ class MovieManager {
         this._index = this._client.initIndex('movies');
     }
 
+    add(movieData) {
+        return this._index.addObject(movieData);
+    }
+
     delete(movieId) {
         return this._index.deleteObject(movieId);
     }

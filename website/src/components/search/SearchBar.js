@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'debounce';
 
-import { movieManager } from './MovieManager';
+import { movieManager } from '../../MovieManager';
 
 import "./searchBar.css";
 

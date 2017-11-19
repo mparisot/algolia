@@ -12,6 +12,16 @@ class MovieManager {
         return this._index.search(text).then(results => results.hits);
     }
 
+    add(movieData) {
+        return fetch(`${host}/movies/`, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify(movieData),
+        }).then(response => response.json());
+    }
+
     delete(movieId) {
         return fetch(`${host}/movies/${movieId}`, {
             method: 'DELETE',

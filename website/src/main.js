@@ -10,7 +10,7 @@ import '../styles/style.css';
 class Main extends React.Component {
 
     state = {
-        sectionDisplayed: 'search',
+        sectionDisplayed: 'addMovie',
     };
 
     switchSection = () => { // add a proper router when we have more than 2 sections
@@ -24,7 +24,7 @@ class Main extends React.Component {
             <button className="sectionSwitch" onClick={this.switchSection}>{this.state.sectionDisplayed === 'search' ? 'Add new movie' : 'Go back to search'}</button>
             <div className={`sections ${this.state.sectionDisplayed}`}>
                 <SearchSection />
-                <AddMovieSection />
+                <AddMovieSection onAddMovie={this.switchSection} />
             </div>
         </div>);
     }

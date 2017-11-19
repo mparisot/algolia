@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { movieManager } from './MovieManager';
+import { movieManager } from '../../MovieManager';
 
 import SearchResults from "./SearchResults";
 import SearchBar from "./SearchBar";
