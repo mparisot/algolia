@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cc from 'classcat';
 
 import SearchSection from './components/search/SearchSection';
+import AddMovieSection from './components/addMovie/AddMovieSection';
 
 import '../styles/style.css';
 
@@ -24,7 +24,7 @@ class Main extends React.Component {
             <button className="sectionSwitch" onClick={this.switchSection}>{this.state.sectionDisplayed === 'search' ? 'Add new movie' : 'Go back to search'}</button>
             <div className={`sections ${this.state.sectionDisplayed}`}>
                 <SearchSection />
-                <div className="addMovieForm">Add a movie</div>
+                <AddMovieSection />
             </div>
         </div>);
     }
