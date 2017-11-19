@@ -17,14 +17,42 @@ body {
 
 .main  {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    margin: 0;
     display: flex;
-    flex-wrap: nowrap;
-}
-
-.searchSection {
-    width: 100%;
+    flex-direction: column;
     max-width: 1000px;
     margin: 0 auto;
+}
+
+.sections {
+    display: flex;
+    overflow: hidden;
+}
+
+.searchSection,
+.addMovieForm {
+    width: 100%;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 200ms;
+}
+
+.addMovieForm {
+    margin-left: -100%;
+}
+
+.sections.search .searchSection,
+.sections.addMovie .addMovieForm {
+    opacity: 1;
+    transition: opacity 200ms 200ms;
+}
+
+.sectionSwitch {
+    align-self: flex-end;
+    margin: 10px;
+    padding: 0 10px;
+    height: 32px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 16px;
 }
 
