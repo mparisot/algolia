@@ -6,6 +6,10 @@
     outline: 0;
 }
 
+:root {
+    --primary-color: dodgerblue;
+}
+
 body {
     margin: 0;
     padding: 0;

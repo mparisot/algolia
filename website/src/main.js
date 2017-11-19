@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './styles/style.css';
+import SearchSection from './components/search/SearchSection';
+
+import '../styles/style.css';
 
 class Main extends React.Component {
 
@@ -10,7 +12,7 @@ class Main extends React.Component {
 
     render() {
         return (<div className="main">
-            Main
+            <SearchSection />
         </div>);
     }
 }
