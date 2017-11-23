@@ -5,6 +5,7 @@
   "author": "matparisot",
   "dependencies": {
     "algoliasearch": "^3.24.6",
+    "body-parser": "^1.18.2",
     "express": "^4.16.2"
   },
   "devDependencies": {},
