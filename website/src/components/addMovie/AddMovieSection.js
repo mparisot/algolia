@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import { movieManager } from '../../MovieManager';
 
+import MultiField from '../form/MultiField';
+import Input from '../form/Input';
+
 import './addMovie.css'
 
 class AddMovieSection extends React.Component {
@@ -15,6 +18,7 @@ class AddMovieSection extends React.Component {
         movieData: {
             title: '',
             image: '',
+            genres: [],
         },
         errors: {}
     };
@@ -27,6 +31,12 @@ class AddMovieSection extends React.Component {
         movieData: Object.assign({}, this.state.movieData, { image: event.target.value }),
         errors: Object.assign({}, this.state.errors, { image: null }),
     });
+
+    changeGenres = (genres) => {
+        this.setState({
+            movieData: Object.assign({}, this.state.movieData, { genres }),
+        });
+    };
 
     validateForm = () => {
         const errors = {};
@@ -51,12 +61,11 @@ class AddMovieSection extends React.Component {
 
         const movieData = this.state.movieData;
 
-        if(movieData.title)
-
         this.setState({
             movieData: {
                 title: '',
                 image: '',
+                genres: [],
             },
             errors: {},
         });
@@ -99,6 +108,9 @@ class AddMovieSection extends React.Component {
                         onChange={this.changeImage}
                     />
                     <div className="addMovieSection-error">{this.state.errors.image}</div>
+                </div>
+                <div className="addMovieSection-fields">
+                    <MultiField component={Input} componentProps={{className: 'plop'}} onValueChange={this.changeGenres} values={this.state.movieData.genres} defaultValue=""/>
                 </div>
                 <button className="addMovie-button" onClick={this.addMovie}>Add the movie</button>
             </form>
