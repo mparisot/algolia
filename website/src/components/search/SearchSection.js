@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { movieManager } from '../../MovieManager';
+import { movieManager } from 'MovieManager';
 
-import SearchResults from "./SearchResults";
-import SearchBar from "./SearchBar";
+import SearchResults from 'components/search/SearchResults';
+import SearchBar from 'components/search/SearchBar';
 
 class SearchSection extends React.Component {
 

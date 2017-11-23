@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { movieManager } from '../../MovieManager';
+import { movieManager } from 'MovieManager';
 
-import GenresField from '../form/GenresField';
+import GenresField from 'components/form/GenresField';
 
 import './addMovie.css'
 

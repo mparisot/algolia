@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import "./searchResult.css";
+import './searchResult.css';
 
 export const searchResultPropType = {
     objectID: PropTypes.string,

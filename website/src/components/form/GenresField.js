@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MultiField from './MultiField';
-import Input from './Input';
+import MultiField from 'components/form/MultiField';
+import Input from 'components/form/Input';
 
 const GenresField = (props) => (
     <MultiField

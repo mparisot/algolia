@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchResult, searchResultPropType } from "./SearchResult";
+import { SearchResult, searchResultPropType } from 'components/search/SearchResult';
 
-import "./searchResults.css";
+import './searchResults.css';
 
 export default class SearchResults extends React.Component {
 

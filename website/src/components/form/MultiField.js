@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MultiFieldLine from './MultiFieldLine';
+import MultiFieldLine from 'components/form/MultiFieldLine';
 
 class MultiField extends React.Component {
 

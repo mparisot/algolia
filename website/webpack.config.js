@@ -1,4 +1,5 @@
-var webpack = require("webpack");
+const webpack = require("webpack");
+const path = require('path');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -50,6 +51,10 @@ module.exports = {
             'web',
             ['jam', 'main'],
             'main',
-        ]
+        ],
+        alias: {
+            MovieManager: path.resolve(__dirname, 'src/MovieManager'),
+            components: path.resolve(__dirname, 'src/components/')
+        },
     }
 };
