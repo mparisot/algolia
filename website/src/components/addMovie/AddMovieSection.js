@@ -47,6 +47,11 @@ class AddMovieSection extends React.Component {
         return errors;
     };
 
+    isFilled = () => {
+        const errors = this.validateForm();
+        return Object.keys(errors).length === 0;
+    };
+
     addMovie = (event) => {
         event.preventDefault();
 
@@ -112,7 +117,7 @@ class AddMovieSection extends React.Component {
                 <div className="addMovieSection-fields">
                     <MultiField component={Input} componentProps={{className: 'plop'}} onValueChange={this.changeGenres} values={this.state.movieData.genres} defaultValue=""/>
                 </div>
-                <button className="addMovie-button" onClick={this.addMovie}>Add the movie</button>
+                <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
             </form>
         );
     }
