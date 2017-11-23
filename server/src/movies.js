@@ -12,6 +12,8 @@ router.route('/movies/').post(function (req, res) {
     if(errors.length > 0) {
         res.status(400).json({ errors });
     } else {
+        console.log('Add movie', req.body);
+
         movieManager.add(req.body)
             .then(content => {
                 console.log('content',content);
