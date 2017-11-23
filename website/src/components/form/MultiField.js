@@ -1,55 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class MultiFieldLine extends React.Component {
-
-    static propTypes = {
-        index: PropTypes.number.isRequired,
-        component: PropTypes.func.isRequired,
-        componentProps: PropTypes.object.isRequired,
-        onDeleteField: PropTypes.func.isRequired,
-        onValueChange: PropTypes.func.isRequired,
-        value: PropTypes.any.isRequired,
-    };
-
-    deleteField = (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-
-        this.props.onDeleteField(this.props.index);
-    };
-
-    onValueChange = (value) => {
-        let valueToUse = value;
-        if(value.target && value.target.value !== undefined) {
-            valueToUse = value.target.value;
-        }
-
-        this.props.onValueChange(this.props.index, valueToUse);
-    };
-
-    render() {
-        return (
-            <div className="multiFieldLine">
-                {React.createElement(this.props.component, Object.assign({}, this.props.componentProps, { onChange: this.onValueChange, value: this.props.value }))}
-                <button className="multiField-delBtn" onClick={this.deleteField}>Delete</button>
-            </div>
-        );
-    }
-}
+import MultiFieldLine from './MultiFieldLine';
 
 class MultiField extends React.Component {
 
     static propTypes = {
-        component: PropTypes.func.isRequired,
-        componentProps: PropTypes.object.isRequired,
-        defaultValue: PropTypes.any.isRequired,
-        onValueChange: PropTypes.func.isRequired,
-        values: PropTypes.arrayOf(PropTypes.any).isRequired,
+        component: PropTypes.func.isRequired, // the component to instanciate in a line
+        componentProps: PropTypes.object.isRequired, // the props that will be injected in that component
+        defaultValue: PropTypes.any, // the default value for an empty value, if undefined take an empty string as default value
+        onValueChange: PropTypes.func.isRequired, // callback triggered when anything change (add, update, delete of a value)
+        values: PropTypes.arrayOf(PropTypes.any).isRequired, // the values processed by that multi fields component
+        isEmpty: PropTypes.func, // function to check if a field is empty, if undefined compare strict equality with default value
     };
 
     static defaultProps = {
         defaultValue: "",
+        isEmpty: (value) => value === MultiField.defaultProps.defaultValue,
     };
 
     changeValue = (index, value) => {
@@ -70,6 +37,8 @@ class MultiField extends React.Component {
     addField = (event) => {
         event.stopPropagation();
         event.preventDefault();
+
+        if(this.props.values.length === 0 || this.props.values[this.props.values.length-1] === this.props.defaultValue) return;
 
         const values = [...this.props.values];
         values.push(this.props.defaultValue);

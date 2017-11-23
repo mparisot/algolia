@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 
 import { movieManager } from '../../MovieManager';
 
-import MultiField from '../form/MultiField';
-import Input from '../form/Input';
+import GenresField from '../form/GenresField';
 
 import './addMovie.css'
+
+const defaultMovieData = {
+    title: '',
+    image: '',
+    genre: [],
+};
 
 class AddMovieSection extends React.Component {
 
@@ -15,11 +20,7 @@ class AddMovieSection extends React.Component {
     };
 
     state = {
-        movieData: {
-            title: '',
-            image: '',
-            genres: [],
-        },
+        movieData: defaultMovieData,
         errors: {}
     };
 
@@ -34,7 +35,7 @@ class AddMovieSection extends React.Component {
 
     changeGenres = (genres) => {
         this.setState({
-            movieData: Object.assign({}, this.state.movieData, { genres }),
+            movieData: Object.assign({}, this.state.movieData, { genre: genres }),
         });
     };
 
@@ -42,7 +43,7 @@ class AddMovieSection extends React.Component {
         const errors = {};
         if(!this.state.movieData.title) errors.title = 'You need to set a title for this movie';
         if(!this.state.movieData.image) errors.image = 'You need to set an image for this movie';
-        else if(!this.state.movieData.image.startsWith('http://') && !this.state.movieData.image.startsWith('https://')) errors.image = 'The image is not a valid URL';
+        else if(!this.state.movieData.image.match(/^https?:\/\/.+/)) errors.image = 'The image is not a valid URL';
 
         return errors;
     };
@@ -55,6 +56,17 @@ class AddMovieSection extends React.Component {
     addMovie = (event) => {
         event.preventDefault();
 
+        // clean data before trying to send the form
+        this.setState({
+            movieData: Object.assign({}, this.state.movieData, {
+                title: this.state.movieData.title.trim(),
+                image: this.state.movieData.image.trim(),
+                genre: this.state.movieData.genre.filter(genre => genre.trim() !== "")
+            }),
+        }, this.submitForm);
+    };
+
+    submitForm = () => {
         const errors = this.validateForm();
 
         if(Object.keys(errors).length > 0) {
@@ -67,11 +79,7 @@ class AddMovieSection extends React.Component {
         const movieData = this.state.movieData;
 
         this.setState({
-            movieData: {
-                title: '',
-                image: '',
-                genres: [],
-            },
+            movieData: defaultMovieData,
             errors: {},
         });
         movieManager.add(movieData)
@@ -115,7 +123,10 @@ class AddMovieSection extends React.Component {
                     <div className="addMovieSection-error">{this.state.errors.image}</div>
                 </div>
                 <div className="addMovieSection-fields">
-                    <MultiField component={Input} componentProps={{className: 'plop'}} onValueChange={this.changeGenres} values={this.state.movieData.genres} defaultValue=""/>
+                    <GenresField
+                        onValueChange={this.changeGenres}
+                        values={this.state.movieData.genre}
+                    />
                 </div>
                 <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
             </form>
