@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const winston = require('winston');
+const yargs = require('yargs').argv;
 
 require('./DbManager');
 
@@ -8,8 +9,8 @@ const { initialImport } = require('./DataImporter');
 
 const routes = require('./routes');
 
-const SERVER_PORT = 3000;
-const INITIAL_IMPORT = '../movies.json';
+const SERVER_PORT = yargs.port || 3000;
+const INITIAL_IMPORT = yargs.importFile;
 
 winston.info('Starting the app');
 
