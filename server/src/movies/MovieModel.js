@@ -36,7 +36,7 @@ Movie.belongsToMany(Genre, {
         unique: false,
     },
     foreignKey: 'movieId',
-    constraints: false
+    constraints: false,
 });
 Genre.belongsToMany(Movie, {
     through: {
@@ -44,7 +44,7 @@ Genre.belongsToMany(Movie, {
         unique: false
     },
     foreignKey: 'genreId',
-    constraints: false
+    constraints: false,
 });
 
 MoviesGenres.sync({force: true}).then(() => {

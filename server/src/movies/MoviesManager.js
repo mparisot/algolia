@@ -41,7 +41,15 @@ class MoviesManager {
     }
 
     delete(movieId) {
-        return this._index.deleteObject(movieId);
+        return Movie.find({
+            where: { objectID: movieId }
+        }).then(movie => {
+            if(movie !== null) {
+                return movie.setGenres([]).then(() => movie.destroy());
+            } else {
+                winston.warn('Tried to delete a movie not in DB, still will try to remove the algolia index', movieId);
+            }
+        }).then(() => this._index.deleteObject(movieId));
     }
 }
 
