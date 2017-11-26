@@ -35,6 +35,28 @@ const MoviesGenres = sequelize.define('MoviesGenres', {
     timestamps: false
 });
 
+const AlternativeTitle  =sequelize.define('AlternativeTitles', {
+    title: {
+        type: Sequelize.STRING,
+    }
+}, {
+    timestamps: false,
+    name: {
+        singular: 'alternative_title',
+        plural: 'alternative_titles'
+    }
+});
+
+Movie.hasMany(AlternativeTitle, {
+    onDelete: 'cascade',
+    foreignKey: 'movieId',
+});
+
+AlternativeTitle.belongsTo(Movie, {
+    onDelete: 'cascade',
+    foreignKey: 'movieId',
+});
+
 Movie.belongsToMany(Genre, {
     through: {
         model: MoviesGenres,
@@ -54,5 +76,6 @@ Genre.belongsToMany(Movie, {
 
 module.exports = {
     Movie,
-    MoviesGenres
+    MoviesGenres,
+    AlternativeTitle,
 };

@@ -2,7 +2,7 @@ const algoliasearch = require('algoliasearch');
 const fs = require('fs');
 const winston = require('winston');
 
-const { Movie } = require('./MovieModel');
+const { Movie, AlternativeTitle } = require('./MovieModel');
 const Genre = require('../genres/GenreModel');
 
 let algoliaKey;
@@ -25,11 +25,47 @@ class MoviesManager {
         this._index = this._client.initIndex('movies');
     }
 
+    _adaptObject(movie) {
+        const adaptedMovie = Object.assign({}, movie.toJSON(), {
+            alternative_titles: movie.alternative_titles.map(value => value.title),
+            genre: movie.Genres.map(genre => genre.name),
+        });
+        delete adaptedMovie.Genres; // need to find how to map properly with sequelize
+
+        return adaptedMovie;
+    }
+
+    getAll() {
+        return Movie.findAll({
+            include: [
+                {model: AlternativeTitle, as: 'alternative_titles', attributes: ['title']},
+                {model: Genre, attributes: ['name']}
+            ]
+        }).then(movies => movies.map(this._adaptObject));
+    }
+
+    getById(movieId) {
+        return Movie.findById(movieId, {
+            include: [
+                {model: AlternativeTitle, as: 'alternative_titles', attributes: ['title']},
+                {model: Genre, attributes: ['name']}
+            ]
+        }).then(this._adaptObject);
+    }
+
     add(movieData, options = { indexInAlgolia: true }) {
-        return Promise.all([
-            Movie.create(Object.assign({ objectID: Date.now() }, movieData)),
-            ...movieData.genre.map(genre => Genre.findOrCreate({ where: { name: genre } })),
-        ]).then(([movieModel, ...genreModels]) => {
+
+        return Movie.create(Object.assign({ objectID: Date.now() }, movieData))
+        .then(movieModel => {
+            return Promise.all( movieData.alternative_titles.map(title => AlternativeTitle.create( {movieId: movieModel.dataValues.objectID, title: title} )))
+                .then(() => movieModel);
+        })
+        .then(movieModel => {
+            return Promise.all([
+                ...movieData.genre.map(genre => Genre.findOrCreate({ where: { name: genre } })),
+            ]).then(genreModels => ([movieModel, ...genreModels]));
+        })
+        .then(([movieModel, ...genreModels]) => {
             const genres = genreModels.map(([genreModel]) => ({ id: genreModel.dataValues.genreId , name: genreModel.dataValues.name }));
             return movieModel.setGenres(genres.map(genre => genre.id)).then(() => {
                 return Object.assign({}, movieModel.dataValues, { genre: genres.map(genre => genre.name) })

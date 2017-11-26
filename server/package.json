@@ -17,6 +17,6 @@
   },
   "scripts": {
     "start": "nodemon src/start.js",
-    "resetDb": "nodemon src/start.js --importFile=./movies.json"
+    "resetDb": "nodemon src/start.js --importFile=../movies.json"
   }
 }

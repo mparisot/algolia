@@ -1,7 +1,7 @@
 const winston = require('winston');
 const fs = require('fs');
 
-const { Movie, MoviesGenres } = require('./movies/MovieModel');
+const { Movie, MoviesGenres, AlternativeTitle } = require('./movies/MovieModel');
 const Genre = require('./genres/GenreModel');
 
 
@@ -10,11 +10,11 @@ function initialImport(file) {
     try {
         importData = JSON.parse(fs.readFileSync(file, 'utf8'));
     } catch(e) {
-        winston.error('Missing import data file : movies.json');
+        winston.error('Missing import data file', { file });
         process.exit(1);
     }
 
-    return createTables(Movie, Genre, MoviesGenres).then(() => importMovies(importData));
+    return createTables(Movie, Genre, MoviesGenres, AlternativeTitle).then(() => importMovies(importData));
 }
 
 function createTables(...models) { // TODO use the migration feature from sequelize instead
@@ -35,20 +35,25 @@ function importMovies(movies) {
 
     let genres = new Set();
     let movieGenres = [];
+    let movieAltTitles = [];
 
     movies.forEach(movie => {
         if(movie.genre) {
             movie.genre.forEach(genre => {
                 genres.add(genre);
                 movieGenres.push({ movieId: movie.objectID, genre: genre });
+            });
 
+            movie.alternative_titles.forEach(title => {
+                movieAltTitles.push({ movieId: movie.objectID, title });
             });
         }
     });
 
-    return Movie.bulkCreate(movies).then(() => {
-        return Genre.bulkCreate([...genres].map(genre => ({ name: genre})));
-    }).then((genres) => {
+    return Movie.bulkCreate(movies)
+    .then(() => AlternativeTitle.bulkCreate(movieAltTitles))
+    .then(() => Genre.bulkCreate([...genres].map(genre => ({ name: genre}))))
+    .then((genres) => {
         const genresByName = genres.reduce((reducedValue, genreData) => {
             const genre = genreData.dataValues;
             reducedValue[genre.name] = genre.genreId;

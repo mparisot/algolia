@@ -5,16 +5,33 @@ const moviesManager = require('./MoviesManager');
 
 const router = express.Router();
 
+router.route('/movies/').get(function (req, res) {
+    winston.info('fetch all movies');
+    moviesManager.getAll().then(movies => {
+        res.json(movies);
+    })
+});
+
+router.route('/movies/:movieId').get(function (req, res) {
+    winston.info('Fetch a movie', { movieId: req.params.movieId });
+    moviesManager.getById(req.params.movieId).then(movie => {
+        res.json(movie);
+    }).catch(err => {
+        winston.error('Error while fetching a movie', { params: req.body, error: err });
+        res.status(500).json(err)
+    });
+});
+
 router.route('/movies/').post(function (req, res) {
     const errors = [];
     if(!req.body.title) errors.push({ field: 'title', error: 'The title is mandatory' });
     if(!req.body.image) errors.push({ field: 'image', error: 'The image is mandatory' });
 
     if(errors.length > 0) {
-        winston.debug('invalid arguments while adding a movie', { args: req.body, errors });
+        winston.info('invalid arguments while adding a movie', { args: req.body, errors });
         res.status(400).json({ errors });
     } else {
-        winston.debug('Add movie', req.body);
+        winston.info('Add movie', req.body);
 
         moviesManager.add(req.body)
             .then(content => {
@@ -30,7 +47,7 @@ router.route('/movies/').post(function (req, res) {
 
 /* DELETE a movie */
 router.route('/movies/:movieId').delete(function (req, res) {
-    winston.debug('Deleting a movie', { movieId: req.params.movieId });
+    winston.info('Deleting a movie', { movieId: req.params.movieId });
     moviesManager.delete(req.params.movieId)
         .then(() => res.send({delete: true}))
         .catch(err => {
