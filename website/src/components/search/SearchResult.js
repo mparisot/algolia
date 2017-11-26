@@ -10,10 +10,13 @@ export const searchResultPropType = {
     genre: PropTypes.arrayOf(PropTypes.string),
 };
 
+/**
+ * A search result displayed in the list
+ */
 export class SearchResult extends React.Component {
 
     static propTypes = Object.assign({
-        onDeleteResult: PropTypes.func.isRequired,
+        onDeleteResult: PropTypes.func.isRequired, // Called when a result is deleted
     }, searchResultPropType);
 
     deleteResult = () => {

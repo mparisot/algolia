@@ -5,6 +5,9 @@ import { SearchResult, searchResultPropType } from 'components/search/SearchResu
 
 import './searchResults.css';
 
+/**
+ * The list of results from the search
+ */
 export default class SearchResults extends React.Component {
 
     static propTypes = {

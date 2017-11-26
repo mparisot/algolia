@@ -5,13 +5,16 @@ import { WithContext as ReactTags } from 'react-tag-input';
 
 import './tagField.css';
 
+/**
+ * Tag manager component
+ */
 class TagsField extends React.Component {
 
     static propsTypes = {
-        onValueChange: PropTypes.func.isRequired,
-        values: PropTypes.arrayOf(PropTypes.string).isRequired,
-        suggestions: PropTypes.arrayOf(PropTypes.any),
-        id: PropTypes.string,
+        onValueChange: PropTypes.func.isRequired, // called when the list of values is changed
+        values: PropTypes.arrayOf(PropTypes.string).isRequired, // the list of tags
+        suggestions: PropTypes.arrayOf(PropTypes.any), // the suggestions for the autocomplete
+        id: PropTypes.string, // the id that should be applied to the input
     };
 
     static defaultProps = {

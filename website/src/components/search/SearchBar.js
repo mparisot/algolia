@@ -6,10 +6,13 @@ import { movieManager } from 'MovieManager';
 
 import './searchBar.css';
 
+/**
+ * The search bar input
+ */
 export default class SearchBar extends React.Component {
 
     static propTypes = {
-        onSearchResultsUpdated: PropTypes.func.isRequired,
+        onSearchResultsUpdated: PropTypes.func.isRequired, // called when the search results are fetched
     };
 
     state = {

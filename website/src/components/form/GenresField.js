@@ -6,15 +6,18 @@ import TagsField from 'components/form/TagsField';
 
 import './genreField.css';
 
+/**
+ * Component to manage Genres
+ */
 class GenresField extends React.Component {
 
     static propsTypes = {
-        onValueChange: PropTypes.func.isRequired,
-        values: PropTypes.arrayOf(PropTypes.string).isRequired,
-        existingGenres: PropTypes.arrayOf(PropTypes.string),
-        existingGenresFetchError: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
+        onValueChange: PropTypes.func.isRequired, // Called with the new list of genres when anything changes
+        values: PropTypes.arrayOf(PropTypes.string).isRequired, // the list fo genres
+        existingGenres: PropTypes.arrayOf(PropTypes.string), // The list of already existing genres in the Db
+        existingGenresFetchError: PropTypes.string, // Error message if anything fails while fetching the existing genres list
+        id: PropTypes.string.isRequired, // the id of the component
+        label: PropTypes.string.isRequired, // the label of the component
     };
 
     static defaultProps = {

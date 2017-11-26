@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * A line for the MultiField component. should not be called outside of MultiField
+ */
 class MultiFieldLine extends React.Component {
 
     static propTypes = {

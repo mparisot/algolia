@@ -5,10 +5,13 @@ import MultiFieldLine from 'components/form/MultiFieldLine';
 
 import './multiField.css';
 
+/**
+ * Component to manage multi line fields with add/delete lines
+ */
 class MultiField extends React.Component {
 
     static propTypes = {
-        component: PropTypes.func.isRequired, // the component to instanciate in a line
+        component: PropTypes.func.isRequired, // the component to instantiate in a line
         componentProps: PropTypes.object, // the props that will be injected in that component
         defaultValue: PropTypes.any, // the default value for an empty value, if undefined take an empty string as default value
         onValueChange: PropTypes.func.isRequired, // callback triggered when anything change (add, update, delete of a value)

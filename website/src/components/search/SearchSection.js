@@ -5,6 +5,9 @@ import { movieManager } from 'MovieManager';
 import SearchResults from 'components/search/SearchResults';
 import SearchBar from 'components/search/SearchBar';
 
+/**
+ * The serchs ection with the search field and the results
+ */
 class SearchSection extends React.Component {
 
     lastResultsUpdate = 0;

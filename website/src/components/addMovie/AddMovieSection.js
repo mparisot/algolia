@@ -17,6 +17,9 @@ const defaultMovieData = {
     alternative_titles: [],
 };
 
+/**
+ * The form to add a movie
+ */
 class AddMovieSection extends React.Component {
 
     static propTypes = {
