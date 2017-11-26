@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MultiField from 'components/form/MultiField';
-import Input from 'components/form/Input';
+import FormFieldSet from 'components/form/FormFieldSet';
 import TagsField from 'components/form/TagsField';
 
 import './genreField.css';
@@ -24,7 +23,7 @@ class GenresField extends React.Component {
 
     render() {
         return (
-            <div>
+            <FormFieldSet>
                 <label htmlFor={this.props.id}>{this.props.label}</label>
                 <TagsField
                     onValueChange={this.props.onValueChange}
@@ -33,19 +32,10 @@ class GenresField extends React.Component {
                     id={this.props.id}
                 />
                 {this.props.existingGenresFetchError && <div className="genreField-error">{this.props.existingGenresFetchError}</div>}
-            </div>
+            </FormFieldSet>
         );
     }
 }
-
-/*const GenresField = (props) => (
-    <MultiField
-        component={Input}
-        componentProps={{className: 'plop'}}
-        onValueChange={props.onValueChange}
-        values={props.values}
-    />
-); */
 
 export default GenresField;
 

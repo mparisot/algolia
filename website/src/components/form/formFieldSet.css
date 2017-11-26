@@ -1,0 +1,43 @@
+.formFieldset {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    margin: 5px 10px;
+}
+
+.formFieldset label {
+    padding: 5px 15px;
+    color: var(--primary-color);
+}
+
+.formFieldset input {
+    max-width: 100%;
+    flex-grow: 1;
+    border: 1px solid var(--primary-color);
+    border-radius: 16px;
+    -webkit-appearance: none;
+    height: 32px;
+    font-size: 16px;
+    padding: 5px 16px;
+}
+
+.formFieldset .tagsField {
+    width: 100%;
+}
+
+@media only screen and (min-width: 46.875rem /* 750px */) {
+
+    .formFieldset {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 10px;
+    }
+
+    .formFieldset label {
+        width: 150px;
+    }
+
+    .formFieldset .tagsField {
+        width: calc(100% - 150px);
+    }
+}

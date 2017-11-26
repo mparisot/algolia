@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { movieManager } from 'MovieManager';
 
+import FormFieldSet from 'components/form/FormFieldSet';
 import GenresField from 'components/form/GenresField';
 
 import './addMovie.css'
@@ -120,7 +121,7 @@ class AddMovieSection extends React.Component {
     render() {
         return (
             <form className="addMovieSection">
-                <div className="addMovieSection-fields">
+                <FormFieldSet>
                     <label htmlFor="addMovie-title">Movie's title</label>
                     <input
                         type="text"
@@ -130,8 +131,8 @@ class AddMovieSection extends React.Component {
                         onChange={this.changeTitle}
                     />
                     <div className="addMovieSection-error">{this.state.errors.title}</div>
-                </div>
-                <div className="addMovieSection-fields">
+                </FormFieldSet>
+                <FormFieldSet>
                     <label htmlFor="addMovie-poster">Poster's url</label>
                     <input
                         type="url"
@@ -141,17 +142,15 @@ class AddMovieSection extends React.Component {
                         onChange={this.changeImage}
                     />
                     <div className="addMovieSection-error">{this.state.errors.image}</div>
-                </div>
-                <div className="addMovieSection-fields">
-                    <GenresField
-                        id="addMovie-genres"
-                        label="Movie's genres"
-                        onValueChange={this.changeGenres}
-                        values={this.state.movieData.genre}
-                        existingGenres={this.state.existingGenres}
-                        existingGenresFetchError={this.state.existingGenresFetchError}
-                    />
-                </div>
+                </FormFieldSet>
+                <GenresField
+                    id="addMovie-genres"
+                    label="Movie's genres"
+                    onValueChange={this.changeGenres}
+                    values={this.state.movieData.genre}
+                    existingGenres={this.state.existingGenres}
+                    existingGenresFetchError={this.state.existingGenresFetchError}
+                />
                 <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
             </form>
         );

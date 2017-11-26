@@ -1,12 +1,23 @@
+.tagsField-noTag {
+    height: 30px;
+    font-size: 12px;
+    color: gray;
+    line-height: 30px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+}
+
 /* Example Styles for React Tags*/
 div.ReactTags__tags {
     position: relative;
+    margin: 0 15px;
 }
 
 /* Styles for the input */
 div.ReactTags__tagInput {
-    width: 100%;
+    width: calc(100% + 30px);
     margin-top: 5px;
+    margin-left: -15px;
 }
 div.ReactTags__tagInput input.ReactTags__tagInputField,
 div.ReactTags__tagInput input.ReactTags__tagInputField:focus {

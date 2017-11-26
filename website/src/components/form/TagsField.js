@@ -51,17 +51,20 @@ class TagsField extends React.Component {
 
     render() {
         return (
-            <ReactTags tags={this.props.values.map(value => ({ id: value, text: value }))}
-                       suggestions={this.props.suggestions}
-                       handleDelete={this.removeValue}
-                       handleAddition={this.addValue}
-                       handleDrag={this.reorderValue}
-                       placeholder=""
-                       id={this.props.id}
-                       allowDeleteFromEmptyInput={false}
-                       handleFilterSuggestions={this.filterSuggestions}
+            <div className="tagsField">
+                {this.props.values.length === 0 && <div className="tagsField-noTag">Type in the field bellow and either select a suggestion or push enter to add your value</div> }
+                <ReactTags tags={this.props.values.map(value => ({ id: value, text: value }))}
+                           suggestions={this.props.suggestions}
+                           handleDelete={this.removeValue}
+                           handleAddition={this.addValue}
+                           handleDrag={this.reorderValue}
+                           placeholder=""
+                           id={this.props.id}
+                           allowDeleteFromEmptyInput={false}
+                           handleFilterSuggestions={this.filterSuggestions}
 
-            />
+                />
+            </div>
         );
     }
 }
