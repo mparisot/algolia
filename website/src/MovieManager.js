@@ -26,7 +26,7 @@ class MovieManager {
      */
     add(movieData) {
         return post(`/api/1/movies/`, movieData)
-            .then(() => this._client.clearCache());
+            .then(() => this._index.clearCache());
     }
 
     /**
@@ -43,7 +43,7 @@ class MovieManager {
      */
     delete(movieId) {
         return callDelete(`/api/1/movies/${movieId}`)
-            .then(() => this._client.clearCache());
+            .then(() => this._index.clearCache());
     }
 }
 
