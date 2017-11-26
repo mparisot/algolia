@@ -48,6 +48,7 @@ class MoviesManager {
                 return movie.setGenres([]).then(() => movie.destroy());
             } else {
                 winston.warn('Tried to delete a movie not in DB, still will try to remove the algolia index', movieId);
+                return Promise.resolve();
             }
         }).then(() => this._index.deleteObject(movieId));
     }
