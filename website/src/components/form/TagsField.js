@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 
 import { WithContext as ReactTags } from 'react-tag-input';
 
+import './tagField.css';
+
 class TagsField extends React.Component {
 
     static propsTypes = {
         onValueChange: PropTypes.func.isRequired,
         values: PropTypes.arrayOf(PropTypes.string).isRequired,
         suggestions: PropTypes.arrayOf(PropTypes.any),
+        id: PropTypes.string,
     };
 
     static defaultProps = {
@@ -44,6 +47,7 @@ class TagsField extends React.Component {
                        handleAddition={this.addGenre}
                        handleDrag={this.reorderGenre}
                        placeholder=""
+                       id={this.props.id}
             />
         );
     }

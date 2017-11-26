@@ -144,6 +144,8 @@ class AddMovieSection extends React.Component {
                 </div>
                 <div className="addMovieSection-fields">
                     <GenresField
+                        id="addMovie-genres"
+                        label="Movie's genres"
                         onValueChange={this.changeGenres}
                         values={this.state.movieData.genre}
                         existingGenres={this.state.existingGenres}
