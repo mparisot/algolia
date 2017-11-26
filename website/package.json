@@ -9,7 +9,8 @@
     "debounce": "^1.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
-    "react-dom": "^16.1.1"
+    "react-dom": "^16.1.1",
+    "react-tag-input": "^4.7.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
