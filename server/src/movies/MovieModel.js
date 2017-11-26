@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const winston = require('winston');
 
-const { sequelize, createTables } = require('../DbManager');
+const { sequelize } = require('../DbManager');
 const Genre = require('../genres/GenreModel');
 
 const Movie = sequelize.define('Movie', {
@@ -51,8 +51,6 @@ Genre.belongsToMany(Movie, {
     foreignKey: 'genreId',
     constraints: false,
 });
-
-createTables(MoviesGenres, Movie);
 
 module.exports = {
     Movie,

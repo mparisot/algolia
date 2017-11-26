@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const winston = require('winston');
 
-const { sequelize, createTables } = require('../DbManager');
+const { sequelize } = require('../DbManager');
 
 const Genre = sequelize.define('Genre', {
     genreId: {
@@ -14,7 +14,5 @@ const Genre = sequelize.define('Genre', {
         allowNull: false,
     },
 });
-
-createTables(Genre);
 
 module.exports = Genre;

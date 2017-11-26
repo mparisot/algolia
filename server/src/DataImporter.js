@@ -14,7 +14,21 @@ function initialImport(file) {
         process.exit(1);
     }
 
-    return importMovies(importData);
+    return createTables(Movie, Genre, MoviesGenres).then(() => importMovies(importData));
+}
+
+function createTables(...models) { // TODO use the migration feature from sequelize instead
+    return Promise.all(
+        models.map(createTable)
+    );
+}
+
+function createTable(model) {
+    return model.sync({ force: true }).then(() => {
+        winston.info('Table created', { modelName: model.name });
+    }).catch(err => {
+        winston.info('Error when creating table', { error: err.errors, modelName: model });
+    });
 }
 
 function importMovies(movies) {
@@ -32,15 +46,15 @@ function importMovies(movies) {
         }
     });
 
-    return Movie.bulkCreate(movies, { ignoreDuplicates: true }).then(() => {
-        return Genre.bulkCreate([...genres].map(genre => ({ name: genre})), { ignoreDuplicates: true });
+    return Movie.bulkCreate(movies).then(() => {
+        return Genre.bulkCreate([...genres].map(genre => ({ name: genre})));
     }).then((genres) => {
         const genresByName = genres.reduce((reducedValue, genreData) => {
             const genre = genreData.dataValues;
             reducedValue[genre.name] = genre.genreId;
             return reducedValue;
         }, {});
-        return MoviesGenres.bulkCreate(movieGenres.map(movieGenre => ({ movieId: movieGenre.movieId, genreId: genresByName[movieGenre.genre] })), { ignoreDuplicates: true });
+        return MoviesGenres.bulkCreate(movieGenres.map(movieGenre => ({ movieId: movieGenre.movieId, genreId: genresByName[movieGenre.genre] })));
     });
 }
 

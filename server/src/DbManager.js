@@ -16,17 +16,6 @@ sequelize
         winston.error('Unable to connect to the database:', { error: err.errors });
     });
 
-function createTables(...models) { // TODO use the migration feature from sequelize instead
-    models.forEach(model => {
-        model.sync().then(() => {
-            winston.info('Table created', { modelName: model.name });
-        }).catch(err => {
-            winston.info('Error when creating table', { error: err.errors, modelName: model });
-        });
-    })
-}
-
 module.exports = {
     sequelize,
-    createTables,
 };
