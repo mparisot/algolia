@@ -18,36 +18,49 @@ class TagsField extends React.Component {
         suggestions: [],
     }
 
-    removeGenre = (index) => {
-        let genres = [...this.props.values];
-        genres.splice(index, 1);
-        this.props.onValueChange(genres);
+    removeValue = (index) => {
+        let values = [...this.props.values];
+        values.splice(index, 1);
+        this.props.onValueChange(values);
     };
 
-    addGenre = (genre) => {
-        let genres = [...this.props.values];
-        genres.push(genre);
-        this.props.onValueChange(genres);
+    addValue = (value) => {
+        if(this.props.values.indexOf(value) >= 0) return;
+        let values = [...this.props.values];
+        values.push(value);
+        this.props.onValueChange(values);
     };
 
-    reorderGenre = (genre, currPos, newPos) => {
-        let genres = [...this.props.values];
+    reorderValue = (value, currPos, newPos) => {
+        let values = [...this.props.values];
 
-        genres.splice(currPos, 1);
-        genres.splice(newPos, 0, genre);
+        values.splice(currPos, 1);
+        values.splice(newPos, 0, value);
 
-        this.props.onValueChange(genres);
+        this.props.onValueChange(values);
+    };
+
+    filterSuggestions = (textInputValue, possibleSuggestionsArray) => {
+        const lowerCaseQuery = textInputValue.toLowerCase();
+
+        return possibleSuggestionsArray.filter((suggestion) =>  {
+            if(this.props.values.indexOf(suggestion) >= 0) return false;
+            return suggestion.toLowerCase().startsWith(lowerCaseQuery)
+        });
     };
 
     render() {
         return (
             <ReactTags tags={this.props.values.map(value => ({ id: value, text: value }))}
                        suggestions={this.props.suggestions}
-                       handleDelete={this.removeGenre}
-                       handleAddition={this.addGenre}
-                       handleDrag={this.reorderGenre}
+                       handleDelete={this.removeValue}
+                       handleAddition={this.addValue}
+                       handleDrag={this.reorderValue}
                        placeholder=""
                        id={this.props.id}
+                       allowDeleteFromEmptyInput={false}
+                       handleFilterSuggestions={this.filterSuggestions}
+
             />
         );
     }

@@ -36,17 +36,19 @@ div.ReactTags__selected a.ReactTags__remove {
 
 /* Styles for suggestions */
 div.ReactTags__suggestions {
-    position: absolute;
 }
 div.ReactTags__suggestions ul {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 5px 0;
+    padding: 0;
     list-style-type: none;
-    box-shadow: .05em .01em .5em rgba(0,0,0,.2);
-    background: white;
-    width: 200px;
+    background-color: white;
+
 }
 div.ReactTags__suggestions li {
-    border-bottom: 1px solid #ddd;
-    padding: 5px 10px;
+    padding: 10px;
     margin: 0;
 }
 div.ReactTags__suggestions li mark {
