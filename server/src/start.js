@@ -5,21 +5,13 @@ const yargs = require('yargs').argv;
 
 require('./DbManager');
 
-const { initialImport } = require('./DataImporter');
-
 const routes = require('./routes');
 
 const SERVER_PORT = yargs.port || 3000;
-const INITIAL_IMPORT = yargs.importFile;
 
 winston.info('Starting the app');
 
-optionalImport = () => {
-    if(INITIAL_IMPORT) return initialImport(INITIAL_IMPORT);
-    return Promise.resolve();
-};
-
-optionalImport().then(() => startServer());
+startServer();
 
 function startServer() {
     const app = express();

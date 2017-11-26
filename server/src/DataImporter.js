@@ -8,16 +8,20 @@ const Genre = require('./genres/GenreModel');
 function initialImport(file) {
     let importData;
     try {
+        winston.info('Read data file');
         importData = JSON.parse(fs.readFileSync(file, 'utf8'));
     } catch(e) {
         winston.error('Missing import data file', { file });
         process.exit(1);
     }
 
+    winston.info('Read data file done');
+
     return createTables(Movie, Genre, MoviesGenres, AlternativeTitle).then(() => importMovies(importData));
 }
 
 function createTables(...models) { // TODO use the migration feature from sequelize instead
+    winston.info('Creating the tables');
     return Promise.all(
         models.map(createTable)
     );
@@ -32,6 +36,8 @@ function createTable(model) {
 }
 
 function importMovies(movies) {
+
+    winston.info('Importing the movies');
 
     let genres = new Set();
     let movieGenres = [];
