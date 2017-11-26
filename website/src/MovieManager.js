@@ -1,5 +1,7 @@
 import algoliasearch from 'algoliasearch/lite';
 
+import { get, post, callDelete } from './FetchUtil';
+
 const host = 'http://localhost:3000'; // inject that properly before shipping to prod
 
 class MovieManager {
@@ -13,28 +15,17 @@ class MovieManager {
     }
 
     add(movieData) {
-        return fetch(`${host}/movies/`, {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-            }),
-            body: JSON.stringify(movieData),
-        }).then(response => {
-            if (!response.ok) {
-                return response.json().then(err => {
-                    throw err;
-                });
-            }
+        return post(`${host}/movies/`, movieData)
+            .then(() => this._client.clearCache());
+    }
 
-            return response.json()
-        });
+    getAllGenres() {
+        return get(`${host}/genres/`);
     }
 
     delete(movieId) {
-        return fetch(`${host}/movies/${movieId}`, {
-            method: 'DELETE',
-            mode: 'cors',
-        }).then(() => this._client.clearCache()); // try to clear the cache to not see the result anymore...
+        return callDelete(`${host}/movies/${movieId}`)
+            .then(() => this._client.clearCache());
     }
 }
 

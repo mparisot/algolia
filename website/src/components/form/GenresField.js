@@ -5,13 +5,34 @@ import MultiField from 'components/form/MultiField';
 import Input from 'components/form/Input';
 import TagsField from 'components/form/TagsField';
 
-const GenresField = (props) => (
-    <TagsField
-        onValueChange={props.onValueChange}
-        values={props.values}
-        suggestions={['Comedy', 'Drame', 'Action']}
-    />
-);
+import './genreField.css';
+
+class GenresField extends React.Component {
+
+    static propsTypes = {
+        onValueChange: PropTypes.func.isRequired,
+        values: PropTypes.arrayOf(PropTypes.string).isRequired,
+        existingGenres: PropTypes.arrayOf(PropTypes.string),
+        existingGenresFetchError: PropTypes.string,
+    };
+
+    static defaultProps = {
+        existingGenres: [],
+    };
+
+    render() {
+        return (
+            <div>
+                <TagsField
+                    onValueChange={this.props.onValueChange}
+                    values={this.props.values}
+                    suggestions={this.props.existingGenres}
+                />
+                {this.props.existingGenresFetchError && <div className="genreField-error">{this.props.existingGenresFetchError}</div>}
+            </div>
+        );
+    }
+}
 
 /*const GenresField = (props) => (
     <MultiField
@@ -21,11 +42,6 @@ const GenresField = (props) => (
         values={props.values}
     />
 ); */
-
-GenresField.propsTypes = {
-    onValueChange: PropTypes.func.isRequired,
-    values: PropTypes.arrayOf(PropTypes.any).isRequired,
-};
 
 export default GenresField;
 

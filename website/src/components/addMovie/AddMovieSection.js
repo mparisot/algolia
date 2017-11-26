@@ -21,8 +21,14 @@ class AddMovieSection extends React.Component {
 
     state = {
         movieData: defaultMovieData,
+        existingGenres: [],
         errors: {}
     };
+
+
+    componentWillMount() {
+       this.refreshExistingGenres();
+    }
 
     changeTitle = (event) => this.setState({
         movieData: Object.assign({}, this.state.movieData, { title: event.target.value }),
@@ -36,6 +42,19 @@ class AddMovieSection extends React.Component {
     changeGenres = (genres) => {
         this.setState({
             movieData: Object.assign({}, this.state.movieData, { genre: genres }),
+        });
+    };
+
+    refreshExistingGenres = () => {
+        movieManager.getAllGenres().then(genres => {
+            this.setState({
+                existingGenres: genres.map(genre => genre.name),
+            });
+        }).catch(err => {
+            console.error(err);
+            this.setState({
+                existingGenresFetchError: 'Error while fetching the genres suggestions, they will not be available for now',
+            });
         });
     };
 
@@ -84,6 +103,7 @@ class AddMovieSection extends React.Component {
         });
         movieManager.add(movieData)
             .then(addedMovie => this.props.onAddMovie(addedMovie))
+            .then(() => this.refreshExistingGenres())
             .catch(({ errors }) => {
                 // manage error side errors
                 const flattenedErrors = errors.reduce((reducedErrors, error) => {
@@ -126,6 +146,8 @@ class AddMovieSection extends React.Component {
                     <GenresField
                         onValueChange={this.changeGenres}
                         values={this.state.movieData.genre}
+                        existingGenres={this.state.existingGenres}
+                        existingGenresFetchError={this.state.existingGenresFetchError}
                     />
                 </div>
                 <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
