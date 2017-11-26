@@ -6,7 +6,7 @@ class MultiFieldLine extends React.Component {
     static propTypes = {
         index: PropTypes.number.isRequired,
         component: PropTypes.func.isRequired,
-        componentProps: PropTypes.object.isRequired,
+        componentProps: PropTypes.object,
         onDeleteField: PropTypes.func.isRequired,
         onValueChange: PropTypes.func.isRequired,
         value: PropTypes.any.isRequired,

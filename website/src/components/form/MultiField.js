@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import MultiFieldLine from 'components/form/MultiFieldLine';
 
+import './multiField.css';
+
 class MultiField extends React.Component {
 
     static propTypes = {
         component: PropTypes.func.isRequired, // the component to instanciate in a line
-        componentProps: PropTypes.object.isRequired, // the props that will be injected in that component
+        componentProps: PropTypes.object, // the props that will be injected in that component
         defaultValue: PropTypes.any, // the default value for an empty value, if undefined take an empty string as default value
         onValueChange: PropTypes.func.isRequired, // callback triggered when anything change (add, update, delete of a value)
         values: PropTypes.arrayOf(PropTypes.any).isRequired, // the values processed by that multi fields component
@@ -66,7 +68,7 @@ class MultiField extends React.Component {
                     />
                 ))}
               </div>
-              <div className="multiField-add"><button onClick={this.addField}>Add</button></div>
+              <div className="multiField-add"><button onClick={this.addField} className="multiField-addBtn">Add another one</button></div>
           </div>
         );
     }

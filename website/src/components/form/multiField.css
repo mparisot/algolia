@@ -1,0 +1,35 @@
+.multiFieldLine {
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+}
+
+.multiFieldLine:first-child {
+    margin-top: 0;
+}
+
+.multiFieldLine .multiFieldInput {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.multiFieldInput + .multiField-delBtn {
+    color: white;
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
+    border-radius: 0 16px 16px 0;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.multiField-add {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.multiField-addBtn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+}

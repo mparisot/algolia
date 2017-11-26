@@ -5,6 +5,8 @@ import { movieManager } from 'MovieManager';
 
 import FormFieldSet from 'components/form/FormFieldSet';
 import GenresField from 'components/form/GenresField';
+import MultiFieldInput from 'components/form/MultiFieldInput';
+import MultiField from 'components/form/MultiField';
 
 import './addMovie.css'
 
@@ -12,6 +14,7 @@ const defaultMovieData = {
     title: '',
     image: '',
     genre: [],
+    alternative_titles: [],
 };
 
 class AddMovieSection extends React.Component {
@@ -43,6 +46,12 @@ class AddMovieSection extends React.Component {
     changeGenres = (genres) => {
         this.setState({
             movieData: Object.assign({}, this.state.movieData, { genre: genres }),
+        });
+    };
+
+    changeAlternateTitles = (alternateTitles) => {
+        this.setState({
+            movieData: Object.assign({}, this.state.movieData, { alternative_titles: alternateTitles }),
         });
     };
 
@@ -131,6 +140,15 @@ class AddMovieSection extends React.Component {
                         onChange={this.changeTitle}
                     />
                     <div className="addMovieSection-error">{this.state.errors.title}</div>
+                </FormFieldSet>
+                <FormFieldSet>
+                    <label htmlFor="addMovie-alternate-titles-0">Movie's alternate titles</label>
+                    <MultiField
+                        id="addMovie-alternate-titles"
+                        component={MultiFieldInput}
+                        values={this.state.movieData.alternative_titles}
+                        onValueChange={this.changeAlternateTitles}
+                    />
                 </FormFieldSet>
                 <FormFieldSet>
                     <label htmlFor="addMovie-poster">Poster's url</label>

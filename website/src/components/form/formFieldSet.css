@@ -37,7 +37,8 @@
         width: 150px;
     }
 
-    .formFieldset .tagsField {
+    .formFieldset .tagsField,
+    .formFieldset .multiField {
         width: calc(100% - 150px);
     }
 }
