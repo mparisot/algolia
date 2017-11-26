@@ -2,7 +2,7 @@ const algoliasearch = require('algoliasearch');
 const fs = require('fs');
 const winston = require('winston');
 
-const Movie = require('./MovieModel');
+const { Movie } = require('./MovieModel');
 const Genre = require('../genres/GenreModel');
 
 let algoliaKey;
@@ -25,7 +25,7 @@ class MoviesManager {
         this._index = this._client.initIndex('movies');
     }
 
-    add(movieData) {
+    add(movieData, options = { indexInAlgolia: true }) {
         return Promise.all([
             Movie.create(Object.assign({ objectID: Date.now() }, movieData)),
             ...movieData.genre.map(genre => Genre.findOrCreate({ where: { name: genre } })),
@@ -36,7 +36,12 @@ class MoviesManager {
             });
         }).then((movie) => {
             winston.debug(' Movie created, adding it to algolia index', movie);
-            return this._index.addObject(movie);
+            if(options.indexInAlgolia) return this._index.addObject(movie);
+            return Promise.resolve(movie);
+        }).catch(err => {
+            if(err.error) return err.error;
+            if(err.errors) return err.errors;
+            return err;
         });
     }
 
@@ -50,7 +55,12 @@ class MoviesManager {
                 winston.warn('Tried to delete a movie not in DB, still will try to remove the algolia index', movieId);
                 return Promise.resolve();
             }
-        }).then(() => this._index.deleteObject(movieId));
+        }).then(() => this._index.deleteObject(movieId))
+        .catch(err => {
+            if(err.error) return err.error;
+            if(err.errors) return err.errors;
+            return err;
+        });
     }
 }
 

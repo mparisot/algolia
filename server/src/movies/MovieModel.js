@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const winston = require('winston');
 
-const sequelize = require('../DbManager');
+const { sequelize, createTables } = require('../DbManager');
 const Genre = require('../genres/GenreModel');
 
 const Movie = sequelize.define('Movie', {
@@ -20,6 +20,11 @@ const Movie = sequelize.define('Movie', {
 });
 
 const MoviesGenres = sequelize.define('MoviesGenres', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     genreId: {
         type: Sequelize.STRING,
     },
@@ -47,16 +52,9 @@ Genre.belongsToMany(Movie, {
     constraints: false,
 });
 
-MoviesGenres.sync({force: true}).then(() => {
-    winston.info('MoviesGenres table created');
-}).catch(err => {
-    winston.info('Error when creating MoviesGenres table', err);
-});
+createTables(MoviesGenres, Movie);
 
-Movie.sync({force: true}).then(() => {
-    winston.info('Movie table created');
-}).catch(err => {
-    winston.info('Error when creating Movie table', err);
-});
-
-module.exports = Movie;
+module.exports = {
+    Movie,
+    MoviesGenres
+};

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const winston = require('winston');
 
-const sequelize = require('../DbManager');
+const { sequelize, createTables } = require('../DbManager');
 
 const Genre = sequelize.define('Genre', {
     genreId: {
@@ -15,10 +15,6 @@ const Genre = sequelize.define('Genre', {
     },
 });
 
-Genre.sync({force: true}).then(() => {
-    winston.info('Genre table created');
-}).catch(err => {
-    winston.info('Error when creating Genre table', err);
-});
+createTables(Genre);
 
 module.exports = Genre;
