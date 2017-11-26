@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const winston = require('winston');
 const yargs = require('yargs').argv;
 
@@ -33,11 +34,17 @@ function startServer() {
 
     winston.info('Adding routes');
 
-    app.get('/', (req, res) => res.json({message: 'This server works'}));
+    app.get('/', function(req, res) {
+        res.header('Content-Type', 'text/html');
+        res.sendFile(path.join(__dirname + '../../../website/index.html'));
+    });
+
+    app.use('/dist', express.static(path.join(__dirname, '../../website/dist')));
+
     winston.info('Root route added');
 
     Object.keys(routes).forEach(routeName => {
-        app.use(routes[routeName]);
+        app.use('/api/1/', routes[routeName]);
         winston.info('Route added :', routeName);
     });
 

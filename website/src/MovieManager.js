@@ -2,7 +2,7 @@ import algoliasearch from 'algoliasearch/lite';
 
 import { get, post, callDelete } from './FetchUtil';
 
-const host = 'http://localhost:3000'; // inject that properly before shipping to prod
+const host = 'http://localhost:3000/api/1/'; // inject that properly before shipping to prod
 
 class MovieManager {
     constructor() {
