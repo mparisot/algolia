@@ -35,7 +35,7 @@ const MoviesGenres = sequelize.define('MoviesGenres', {
     timestamps: false
 });
 
-const AlternativeTitle  =sequelize.define('AlternativeTitles', {
+const AlternativeTitle = sequelize.define('AlternativeTitles', {
     title: {
         type: Sequelize.STRING,
     }
