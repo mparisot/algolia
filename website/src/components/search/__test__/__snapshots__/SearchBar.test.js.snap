@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render the SearchBar 1`] = `
+<div
+  className="searchBar"
+>
+  <label
+    className="searchBar-label"
+    htmlFor="movieSearchInput"
+  >
+    Type to search your movie
+  </label>
+  <input
+    className="searchBar-input"
+    id="movieSearchInput"
+    onChange={[Function]}
+    placeholder="Type to search your movie"
+    type="search"
+  />
+</div>
+`;
+
+exports[`SearchBar display error message when search fails 1`] = `
+<div
+  className="searchBar"
+>
+  <label
+    className="searchBar-label"
+    htmlFor="movieSearchInput"
+  >
+    Type to search your movie
+  </label>
+  <input
+    className="searchBar-input"
+    id="movieSearchInput"
+    onChange={[Function]}
+    placeholder="Type to search your movie"
+    type="search"
+  />
+</div>
+`;
+
+exports[`SearchBar display error message when search fails 2`] = `
+<div
+  className="searchBar"
+>
+  <label
+    className="searchBar-label"
+    htmlFor="movieSearchInput"
+  >
+    Type to search your movie
+  </label>
+  <input
+    className="searchBar-input"
+    id="movieSearchInput"
+    onChange={[Function]}
+    placeholder="Type to search your movie"
+    type="search"
+  />
+  <div
+    className="searchBar-error"
+  >
+    Error!
+  </div>
+</div>
+`;
