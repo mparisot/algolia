@@ -6,7 +6,7 @@ jest.mock('MovieManager');
 
 const debounce = (fn) => fn;
 
-test('Render the SearchBar', () => {
+test('SearchBar renders properly', () => {
     const searchBar = shallow(
         <SearchBar onSearchResultsUpdated={() => null}/>,
     );
@@ -19,17 +19,22 @@ test('SearchBar update results when search yield results', (done) => {
 
     const searchBar = mount(<SearchBar onSearchResultsUpdated={mockSearchResultUpdate}/>);
 
-    //mockSearchResultUpdate('plop');
-
     const input = searchBar.find('input');
-
-    input.simulate('focus');
     input.simulate('change', { target: { value: 'text' } });
 
-
     setTimeout(() => {
-        expect(mockSearchResultUpdate).toBeCalled();
-        done();
+        try {
+            expect(mockSearchResultUpdate).toBeCalled();
+
+            const results = mockSearchResultUpdate.mock.calls[0][0];
+            expect(Array.isArray(results)).toBe(true);
+            expect(results.length).toBe(1);
+            expect(results[0].objectID).toBe('1');
+            expect(results[0].title).toBe('title');
+            done();
+        } catch(error) {
+            done.fail(error);
+        }
     },1);
 });
 
@@ -39,13 +44,15 @@ test('SearchBar display error message when search fails', done => {
     expect(searchBar).toMatchSnapshot();
 
     const input = searchBar.find('input');
-
-    input.simulate('focus');
     input.simulate('change', { target: { value: 'error' } });
 
     setTimeout(() => {
-        searchBar.update();
-        expect(searchBar).toMatchSnapshot();
-        done();
+        try {
+            searchBar.update();
+            expect(searchBar).toMatchSnapshot();
+            done();
+        } catch(error) {
+            done.fail(error);
+        }
     },1);
 });

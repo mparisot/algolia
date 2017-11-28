@@ -8,7 +8,7 @@ class MovieManager {
             return Promise.reject({ message: 'Error!' });
         } else {
             return Promise.resolve([{
-                objectId: '1',
+                objectID: '1',
                 title: 'title'
             }]);
         }
