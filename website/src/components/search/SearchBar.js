@@ -36,10 +36,6 @@ export default class SearchBar extends React.Component {
         });
     }, 300); // debounce to avoid too much flickering when the user is typing
 
-    cancelSearch = () => {
-        this.props.onSearchResultsUpdated([]);
-    };
-
     render() {
         return (
             <div className="searchBar">
