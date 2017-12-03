@@ -26,6 +26,7 @@ router.route('/movies/').post(function (req, res) {
     const errors = [];
     if(!req.body.title) errors.push({ field: 'title', error: 'The title is mandatory' });
     if(!req.body.image) errors.push({ field: 'image', error: 'The image is mandatory' });
+    if(!req.body.year) errors.push({ field: 'year', error: 'The year is mandatory' });
 
     if(errors.length > 0) {
         winston.info('invalid arguments while adding a movie', { args: req.body, errors });

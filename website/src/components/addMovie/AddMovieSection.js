@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import StarRatingComponent from 'react-star-rating-component';
+
+
 import { movieManager } from 'MovieManager';
 
 import FormFieldSet from 'components/form/FormFieldSet';
@@ -14,6 +17,7 @@ const defaultMovieData = {
     title: '',
     image: '',
     genre: [],
+    year: '',
     alternative_titles: [],
 };
 
@@ -37,20 +41,18 @@ class AddMovieSection extends React.Component {
        this.refreshExistingGenres();
     }
 
-    changeTitle = (event) => this.setState({
-        movieData: Object.assign({}, this.state.movieData, { title: event.target.value }),
-        errors: Object.assign({}, this.state.errors, { title: null }),
-    });
-    changeImage = (event) => this.setState({
-        movieData: Object.assign({}, this.state.movieData, { image: event.target.value }),
-        errors: Object.assign({}, this.state.errors, { image: null }),
+    changeField = (fieldName, value) => this.setState({
+        movieData: Object.assign({}, this.state.movieData, { [fieldName]: value }),
+        errors: Object.assign({}, this.state.errors, { [fieldName]: null }),
     });
 
-    changeGenres = (genres) => {
-        this.setState({
-            movieData: Object.assign({}, this.state.movieData, { genre: genres }),
-        });
-    };
+    changeInputField = (fieldName, event) => this.changeField(fieldName, event.target.value);
+
+    changeTitle = this.changeInputField.bind(this, 'title');
+    changeYear = this.changeInputField.bind(this, 'year');
+    changeImage = this.changeInputField.bind(this, 'image');
+    changeGenres = (genres) => this.changeField('genre', genres);
+    changeRating = (rating) => this.changeField('rating', rating);
 
     changeAlternateTitles = (alternateTitles) => {
         this.setState({
@@ -74,15 +76,21 @@ class AddMovieSection extends React.Component {
     validateForm = () => {
         const errors = {};
         if(!this.state.movieData.title) errors.title = 'You need to set a title for this movie';
+
         if(!this.state.movieData.image) errors.image = 'You need to set an image for this movie';
         else if(!this.state.movieData.image.match(/^https?:\/\/.+/)) errors.image = 'The image is not a valid URL';
+
+        if(!this.state.movieData.year) errors.year = 'You need to set a production year for this movie';
+        else if(!this.state.movieData.year.match(/^[0-9]{4}$/)) errors.year = 'This year is not valid';
+        else if(parseInt(this.state.movieData.year, 10) < 1895) errors.year = 'This movie is older than the cinema, isn\'t that a mistake?';
 
         return errors;
     };
 
     isFilled = () => {
-        const errors = this.validateForm();
-        return Object.keys(errors).length === 0;
+        return true; // always enable the button for now
+        /*const errors = this.validateForm();
+        return Object.keys(errors).length === 0;*/
     };
 
     addMovie = (event) => {
@@ -145,13 +153,17 @@ class AddMovieSection extends React.Component {
                     <div className="addMovieSection-error">{this.state.errors.title}</div>
                 </FormFieldSet>
                 <FormFieldSet>
-                    <label htmlFor="addMovie-alternate-titles-0">Movie's alternate titles</label>
-                    <MultiField
-                        id="addMovie-alternate-titles"
-                        component={MultiFieldInput}
-                        values={this.state.movieData.alternative_titles}
-                        onValueChange={this.changeAlternateTitles}
+                    <label htmlFor="addMovie-year">Production year</label>
+                    <input
+                        type="number"
+                        pattern="[0-9]*"
+                        maxLength={4}
+                        id="addMovie-year"
+                        placeholder="Ex: 1982"
+                        value={this.state.movieData.year}
+                        onChange={this.changeYear}
                     />
+                    <div className="addMovieSection-error">{this.state.errors.year}</div>
                 </FormFieldSet>
                 <FormFieldSet>
                     <label htmlFor="addMovie-poster">Poster's url</label>
@@ -164,6 +176,16 @@ class AddMovieSection extends React.Component {
                     />
                     <div className="addMovieSection-error">{this.state.errors.image}</div>
                 </FormFieldSet>
+                <h2 className="addMovie-sectionTitle">Optional information</h2>
+                <FormFieldSet>
+                    <label htmlFor="addMovie-alternate-titles-0">Movie's alternate titles</label>
+                    <MultiField
+                        id="addMovie-alternate-titles"
+                        component={MultiFieldInput}
+                        values={this.state.movieData.alternative_titles}
+                        onValueChange={this.changeAlternateTitles}
+                    />
+                </FormFieldSet>
                 <GenresField
                     id="addMovie-genres"
                     label="Movie's genres"
@@ -172,6 +194,16 @@ class AddMovieSection extends React.Component {
                     existingGenres={this.state.existingGenres}
                     existingGenresFetchError={this.state.existingGenresFetchError}
                 />
+                <FormFieldSet>
+                    <label htmlFor="addMovie-rating">Movie's rating</label>
+                    <StarRatingComponent
+                        name="addMovie-rating"
+                        starCount={5}
+                        value={this.state.movieData.rating}
+                        onStarClick={this.changeRating}
+                    />
+                    <div className="addMovieSection-error">{this.state.errors.image}</div>
+                </FormFieldSet>
                 <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
             </form>
         );
