@@ -16,6 +16,8 @@ class Main extends React.Component {
     switchSection = () => { // add a proper router when we have more than 2 sections
         this.setState({
             sectionDisplayed: this.state.sectionDisplayed === 'search' ? 'addMovie' : 'search',
+        }, () => {
+            window.scrollTo(0, 0);
         });
     };
 
