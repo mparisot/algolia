@@ -7,7 +7,7 @@ class ActorField extends React.Component {
 
     static propTypes = {
         id: PropTypes.string.isRequired, // base id for all the actor inputs
-        index: PropTypes.string, // the index of that component if used in MultiField
+        index: PropTypes.number, // the index of that component if used in MultiField
         value: PropTypes.shape({ // an actor with a name and an image
             name: PropTypes.string,
             image: PropTypes.string,
