@@ -58,7 +58,6 @@ class AddMovieSection extends React.Component {
     changeColor = this.changeInputField.bind(this, 'color');
     changeGenres = (genres) => this.changeField('genre', genres);
     changeRating = (rating) => this.changeField('rating', rating);
-
     changeAlternateTitles = (alternateTitles) => this.changeField('alternative_titles', alternateTitles);
     changeActors = (actors) => this.changeField('actors', actors);
 
@@ -124,6 +123,10 @@ class AddMovieSection extends React.Component {
             movieData: defaultMovieData,
             errors: {},
         });
+
+        const actors = movieData.actors;
+        movieData.actors = actors.map(actor => ({ name: actor.name, facet: `${actor.image}|${actor.name}` }));
+
         movieManager.add(movieData)
             .then(addedMovie => this.props.onAddMovie(addedMovie))
             .then(() => this.refreshExistingGenres())

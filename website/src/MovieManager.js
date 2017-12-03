@@ -2,6 +2,8 @@ import algoliasearch from 'algoliasearch/lite';
 
 import { get, post, callDelete } from './FetchUtil';
 
+const host = 'http://localhost:3000'; // TODO inject that value by env somehow
+
 /*
  Everything needed to manage Movies
  */
@@ -25,7 +27,7 @@ class MovieManager {
      * @param movieData The data of the movie to add
      */
     add(movieData) {
-        return post(`/api/1/movies/`, movieData)
+        return post(`${host}/api/1/movies/`, movieData)
             .then(() => this._index.clearCache());
     }
 
@@ -34,7 +36,7 @@ class MovieManager {
      * @returns An array of genres
      */
     getAllGenres() {
-        return get(`/api/1/genres/`);
+        return get(`${host}/api/1/genres/`);
     }
 
     /**
@@ -42,7 +44,7 @@ class MovieManager {
      * @param movieId The id of the movie to delete
      */
     delete(movieId) {
-        return callDelete(`/api/1/movies/${movieId}`)
+        return callDelete(`${host}/api/1/movies/${movieId}`)
             .then(() => this._index.clearCache());
     }
 }

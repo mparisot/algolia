@@ -49,7 +49,7 @@ router.route('/movies/').post(function (req, res) {
 /* DELETE a movie */
 router.route('/movies/:movieId').delete(function (req, res) {
     winston.info('Deleting a movie', { movieId: req.params.movieId });
-    moviesManager.delete(req.params.movieId)
+    moviesManager.del(req.params.movieId)
         .then(() => res.send({delete: true}))
         .catch(err => {
             winston.error('Error while deleting a movie', { params: req.params, error: err });

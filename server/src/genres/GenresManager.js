@@ -1,4 +1,5 @@
 const winston = require('winston');
+const sequential = require('promise-sequential');
 
 const Genre = require('./GenreModel');
 
@@ -9,6 +10,15 @@ class GenresManager {
 
     getAll() {
         return Genre.findAll();
+    }
+
+    add(genre) {
+        console.log('add',genre);
+        return Genre.findOrCreate({ where: { name: genre } }).then(([genre]) => genre);
+    }
+
+    bulkAdd(genres) {
+        return sequential(genres.map(genre => () => this.add(genre)));
     }
 }
 

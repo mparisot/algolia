@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 
 const { sequelize } = require('../DbManager');
 
-const Genre = sequelize.define('Genre', {
-    genreId: {
+const Actor = sequelize.define('Actor', {
+    actorId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -12,6 +12,9 @@ const Genre = sequelize.define('Genre', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    facet: {
+        type: Sequelize.STRING,
+    },
 });
 
-module.exports = Genre;
+module.exports = Actor;

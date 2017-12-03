@@ -4,6 +4,10 @@ const winston = require('winston');
 
 const { Movie, AlternativeTitle } = require('./MovieModel');
 const Genre = require('../genres/GenreModel');
+const Actor = require('../actors/ActorModel');
+
+const genresManager = require('../genres/GenresManager');
+const actorsManager = require('../actors/ActorsManager');
 
 let algoliaKey;
 
@@ -29,8 +33,11 @@ class MoviesManager {
         const adaptedMovie = Object.assign({}, movie.toJSON(), {
             alternative_titles: movie.alternative_titles.map(value => value.title),
             genre: movie.Genres.map(genre => genre.name),
+            actors: movie.Actors.map(actor => actor.name),
+            actor_facets: movie.Actors.map(actor => actor.facet),
         });
         delete adaptedMovie.Genres; // need to find how to map properly with sequelize
+        delete adaptedMovie.Actors; // need to find how to map properly with sequelize
 
         return adaptedMovie;
     }
@@ -39,7 +46,8 @@ class MoviesManager {
         return Movie.findAll({
             include: [
                 {model: AlternativeTitle, as: 'alternative_titles', attributes: ['title']},
-                {model: Genre, attributes: ['name']}
+                {model: Genre, attributes: ['name']},
+                {model: Actor, attributes: ['name', 'facet']}
             ]
         }).then(movies => movies.map(this._adaptObject));
     }
@@ -48,40 +56,40 @@ class MoviesManager {
         return Movie.findById(movieId, {
             include: [
                 {model: AlternativeTitle, as: 'alternative_titles', attributes: ['title']},
-                {model: Genre, attributes: ['name']}
+                {model: Genre, attributes: ['name']},
+                {model: Actor, attributes: ['name', 'facet']}
             ]
         }).then(this._adaptObject);
     }
 
     add(movieData, options = { indexInAlgolia: true }) {
 
-        return Movie.create(Object.assign({ objectID: Date.now() }, movieData))
-        .then(movieModel => {
-            return Promise.all( movieData.alternative_titles.map(title => AlternativeTitle.create( {movieId: movieModel.dataValues.objectID, title: title} )))
-                .then(() => movieModel);
-        })
-        .then(movieModel => {
+        return Promise.all([
+            Movie.create(Object.assign({ objectID: Date.now() }, movieData)),
+            genresManager.bulkAdd(movieData.genre),
+            actorsManager.bulkAdd(movieData.actors),
+        ]).then(([movieModel, [...genreModels], [...actorsModels]]) => {
+            const genresIds = genreModels.map(genreModel => genreModel.dataValues.genreId);
+            const actorsIds = actorsModels.map(actorModel => actorModel.dataValues.actorId);
+
             return Promise.all([
-                ...movieData.genre.map(genre => Genre.findOrCreate({ where: { name: genre } })),
-            ]).then(genreModels => ([movieModel, ...genreModels]));
-        })
-        .then(([movieModel, ...genreModels]) => {
-            const genres = genreModels.map(([genreModel]) => ({ id: genreModel.dataValues.genreId , name: genreModel.dataValues.name }));
-            return movieModel.setGenres(genres.map(genre => genre.id)).then(() => {
-                return Object.assign({}, movieModel.dataValues, { genre: genres.map(genre => genre.name) })
-            });
+                ...movieData.alternative_titles.map(title => AlternativeTitle.create( {movieId: movieModel.dataValues.objectID, title: title} )),
+                movieModel.setGenres(genresIds),
+                movieModel.setActors(actorsIds),
+            ]).then(([movie]) => movie);
         }).then((movie) => {
             winston.debug(' Movie created, adding it to algolia index', movie);
             if(options.indexInAlgolia) return this._index.addObject(movie);
             return Promise.resolve(movie);
         }).catch(err => {
+            console.error(err);
             if(err.error) return err.error;
             if(err.errors) return err.errors;
             return err;
         });
     }
 
-    delete(movieId) {
+    del(movieId) {
         return Movie.find({
             where: { objectID: movieId }
         }).then(movie => {

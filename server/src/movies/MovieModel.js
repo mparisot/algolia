@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
-const winston = require('winston');
 
 const { sequelize } = require('../DbManager');
 const Genre = require('../genres/GenreModel');
+const Actor = require('../actors/ActorModel');
 
 const Movie = sequelize.define('Movie', {
     objectID: {
@@ -47,6 +47,23 @@ const MoviesGenres = sequelize.define('MoviesGenres', {
     timestamps: false
 });
 
+Movie.belongsToMany(Genre, {
+    through: {
+        model: MoviesGenres,
+        unique: false,
+    },
+    foreignKey: 'movieId',
+    constraints: false,
+});
+Genre.belongsToMany(Movie, {
+    through: {
+        model: MoviesGenres,
+        unique: false
+    },
+    foreignKey: 'genreId',
+    constraints: false,
+});
+
 const AlternativeTitle = sequelize.define('AlternativeTitles', {
     title: {
         type: Sequelize.STRING,
@@ -69,20 +86,36 @@ AlternativeTitle.belongsTo(Movie, {
     foreignKey: 'movieId',
 });
 
-Movie.belongsToMany(Genre, {
+const MoviesActors = sequelize.define('MoviesActors', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    actorId: {
+        type: Sequelize.STRING,
+    },
+    movieId: {
+        type: Sequelize.STRING,
+    }
+}, {
+    timestamps: false
+});
+
+Movie.belongsToMany(Actor, {
     through: {
-        model: MoviesGenres,
+        model: MoviesActors,
         unique: false,
     },
     foreignKey: 'movieId',
     constraints: false,
 });
-Genre.belongsToMany(Movie, {
+Actor.belongsToMany(Movie, {
     through: {
-        model: MoviesGenres,
+        model: MoviesActors,
         unique: false
     },
-    foreignKey: 'genreId',
+    foreignKey: 'actorId',
     constraints: false,
 });
 
@@ -90,4 +123,5 @@ module.exports = {
     Movie,
     MoviesGenres,
     AlternativeTitle,
+    MoviesActors,
 };

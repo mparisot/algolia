@@ -4,7 +4,7 @@ const winston = require('winston');
 const sequelize = new Sequelize('movies', null, null, {
     dialect: 'sqlite',
     storage: './movies.sqlite',
-    logging: msg => winston.info(msg),
+    //logging: msg => winston.info(msg),
 });
 
 sequelize
