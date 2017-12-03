@@ -30,6 +30,8 @@ class MoviesManager {
     }
 
     _adaptObject(movie) {
+        if(!movie) return;
+
         const adaptedMovie = Object.assign({}, movie.toJSON(), {
             alternative_titles: movie.alternative_titles.map(value => value.title),
             genre: movie.Genres.map(genre => genre.name),

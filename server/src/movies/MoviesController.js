@@ -17,7 +17,7 @@ router.route('/movies/').get(function (req, res) {
 router.route('/movies/:movieId').get(function (req, res) {
     winston.info('Fetch a movie', { movieId: req.params.movieId });
     moviesManager.getById(req.params.movieId).then(movie => {
-        if(!movie.objectID) res.statusCode(404).json({});
+        if(!movie) res.status(404).json({});
         else res.json(movie);
     }).catch(manageErrors.bind(null, res, {
         messageToLog: 'Error while fetching a movie',
