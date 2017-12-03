@@ -79,14 +79,20 @@ class MoviesManager {
             const alternateTitles = movieData.alternative_titles.map(altTitle => ({ movieId: movieModel.dataValues.objectID, title: altTitle }));
 
             return sequential([
+                () => Promise.resolve(movieModel.dataValues),
                 () => AlternativeTitle.bulkCreate(alternateTitles),
                 () => movieModel.setGenres(genresIds),
                 () => movieModel.setActors(actorsIds),
             ]).then(([movie]) => movie);
         }).then((movie) => {
-            winston.debug(' Movie created, adding it to algolia index', movie);
-            if(options.indexInAlgolia) return this._index.addObject(movie);
-            return Promise.resolve(movie);
+
+            const movieForAlgolia = Object.assign({ objectID: movie.objectID }, movieData);
+            movieForAlgolia.actors = movieData.actors.map(actor => actor.name);
+            movieForAlgolia.actor_facets = movieData.actors.map(actor => actor.facet);
+
+            winston.info('Movie created, adding it to algolia index', movieForAlgolia);
+            if(options.indexInAlgolia) return this._index.addObject(movieForAlgolia);
+            return Promise.resolve(movieForAlgolia);
         }).catch(err => {
             console.error(err);
             if(err.error) return err.error;
