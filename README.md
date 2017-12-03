@@ -46,3 +46,4 @@ The things I'd make better/do if I had more time in no particular order :
 * Add a view to see all the movie info
 * Editing a movie
 * upload images for poster and actors
+* update the genres' list on the client side with Server sent events
