@@ -52,6 +52,7 @@ Movie.belongsToMany(Genre, {
         model: MoviesGenres,
         unique: false,
     },
+    onDelete: 'cascade',
     foreignKey: 'movieId',
     constraints: false,
 });
@@ -60,6 +61,7 @@ Genre.belongsToMany(Movie, {
         model: MoviesGenres,
         unique: false
     },
+    onDelete: 'cascade',
     foreignKey: 'genreId',
     constraints: false,
 });
@@ -107,6 +109,7 @@ Movie.belongsToMany(Actor, {
         model: MoviesActors,
         unique: false,
     },
+    onDelete: 'cascade',
     foreignKey: 'movieId',
     constraints: false,
 });
@@ -115,6 +118,7 @@ Actor.belongsToMany(Movie, {
         model: MoviesActors,
         unique: false
     },
+    onDelete: 'cascade',
     foreignKey: 'actorId',
     constraints: false,
 });
