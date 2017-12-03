@@ -6,7 +6,7 @@ import StarRatingComponent from 'react-star-rating-component';
 
 import { movieManager } from 'MovieManager';
 
-import FormFieldSet from 'components/form/FormFieldSet';
+import FormFieldSetWithLabel from 'components/form/FormFieldSetWithLabel';
 import GenresField from 'components/form/GenresField';
 import MultiFieldInput from 'components/form/MultiFieldInput';
 import MultiField from 'components/form/MultiField';
@@ -143,8 +143,11 @@ class AddMovieSection extends React.Component {
     render() {
         return (
             <form className="addMovieSection">
-                <FormFieldSet>
-                    <label htmlFor="addMovie-title">Movie's title</label>
+                <FormFieldSetWithLabel
+                    htmlFor="addMovie-title"
+                    label="Movie's title"
+                    error={this.state.errors.title}
+                >
                     <input
                         type="text"
                         id="addMovie-title"
@@ -152,10 +155,12 @@ class AddMovieSection extends React.Component {
                         value={this.state.movieData.title}
                         onChange={this.changeTitle}
                     />
-                    <div className="addMovieSection-error">{this.state.errors.title}</div>
-                </FormFieldSet>
-                <FormFieldSet>
-                    <label htmlFor="addMovie-year">Production year</label>
+                </FormFieldSetWithLabel>
+                <FormFieldSetWithLabel
+                    htmlFor="addMovie-year"
+                    label="Production year"
+                    error={this.state.errors.year}
+                >
                     <input
                         type="number"
                         pattern="[0-9]*"
@@ -165,10 +170,12 @@ class AddMovieSection extends React.Component {
                         value={this.state.movieData.year}
                         onChange={this.changeYear}
                     />
-                    <div className="addMovieSection-error">{this.state.errors.year}</div>
-                </FormFieldSet>
-                <FormFieldSet>
-                    <label htmlFor="addMovie-poster">Poster's url</label>
+                </FormFieldSetWithLabel>
+                <FormFieldSetWithLabel
+                    htmlFor="addMovie-image"
+                    label="Poster's url"
+                    error={this.state.errors.image}
+                >
                     <input
                         type="url"
                         id="addMovie-poster"
@@ -176,18 +183,19 @@ class AddMovieSection extends React.Component {
                         value={this.state.movieData.image}
                         onChange={this.changeImage}
                     />
-                    <div className="addMovieSection-error">{this.state.errors.image}</div>
-                </FormFieldSet>
+                </FormFieldSetWithLabel>
                 <h2 className="addMovie-sectionTitle">Optional information</h2>
-                <FormFieldSet>
-                    <label htmlFor="addMovie-alternate-titles-0">Movie's alternate titles</label>
+                <FormFieldSetWithLabel
+                    htmlFor="addMovie-alternate-titles-0"
+                    label="Movie's alternate titles"
+                >
                     <MultiField
                         id="addMovie-alternate-titles"
                         component={MultiFieldInput}
                         values={this.state.movieData.alternative_titles}
                         onValueChange={this.changeAlternateTitles}
                     />
-                </FormFieldSet>
+                </FormFieldSetWithLabel>
                 <GenresField
                     id="addMovie-genres"
                     label="Movie's genres"
@@ -196,18 +204,23 @@ class AddMovieSection extends React.Component {
                     existingGenres={this.state.existingGenres}
                     existingGenresFetchError={this.state.existingGenresFetchError}
                 />
-                <FormFieldSet>
-                    <label htmlFor="addMovie-rating">Movie's rating</label>
+                <FormFieldSetWithLabel
+                    htmlFor="addMovie-rating"
+                    label="Movie's rating"
+                    error={this.state.errors.rating}
+                >
                     <StarRatingComponent
                         name="addMovie-rating"
                         starCount={5}
                         value={this.state.movieData.rating}
                         onStarClick={this.changeRating}
                     />
-                    <div className="addMovieSection-error">{this.state.errors.rating}</div>
-                </FormFieldSet>
-                <FormFieldSet>
-                    <label htmlFor="addMovie-color">Movie's dominant color theme</label>
+                </FormFieldSetWithLabel>
+                <FormFieldSetWithLabel
+                    htmlFor="addMovie-color"
+                    label="Movie's dominant color theme"
+                    error={this.state.errors.color}
+                >
                     <input
                         type="color"
                         id="addMovie-color"
@@ -215,8 +228,7 @@ class AddMovieSection extends React.Component {
                         value={this.state.movieData.color}
                         onChange={this.changeColor}
                     />
-                    <div className="addMovieSection-error">{this.state.errors.color}</div>
-                </FormFieldSet>
+                </FormFieldSetWithLabel>
                 <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
             </form>
         );
