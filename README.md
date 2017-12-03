@@ -4,7 +4,7 @@
 
 ## Installing
 
-This project is cut in 2 parts : the website that runs using webpack-dev-server and the server running using nodemon.
+This project is cut in 2 parts : the website that can run using webpack-dev-server or be served by the server and the server running using nodemon.
 
 ### Building the website
 
