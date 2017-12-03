@@ -34,7 +34,18 @@ class MultiFieldLine extends React.Component {
     render() {
         return (
             <div className="multiFieldLine">
-                {React.createElement(this.props.component, Object.assign({}, this.props.componentProps, { onChange: this.onValueChange, value: this.props.value }))}
+                {React.createElement(
+                    this.props.component,
+                    Object.assign(
+                        {},
+                        this.props.componentProps,
+                        {
+                            onChange: this.onValueChange,
+                            value: this.props.value,
+                            index: this.props.index
+                        }
+                    )
+                )}
                 <button className="multiField-delBtn" onClick={this.deleteField}>Delete</button>
             </div>
         );

@@ -17,6 +17,7 @@ class MultiField extends React.Component {
         onValueChange: PropTypes.func.isRequired, // callback triggered when anything change (add, update, delete of a value)
         values: PropTypes.arrayOf(PropTypes.any).isRequired, // the values processed by that multi fields component
         isEmpty: PropTypes.func, // function to check if a field is empty, if undefined compare strict equality with default value
+        className: PropTypes.string, // additional className to customize the style
     };
 
     static defaultProps = {
@@ -43,7 +44,10 @@ class MultiField extends React.Component {
         event.stopPropagation();
         event.preventDefault();
 
-        if(this.props.values.length === 0 || this.props.values[this.props.values.length-1] === this.props.defaultValue) return;
+        if(this.props.values.length === 0
+        || this.props.values[this.props.values.length-1] === this.props.defaultValue
+        || this.props.isEmpty(this.props.values[this.props.values.length - 1])
+        ) return;
 
         const values = [...this.props.values];
         values.push(this.props.defaultValue);
@@ -57,7 +61,7 @@ class MultiField extends React.Component {
         if(values.length === 0) values.push(this.props.defaultValue);
 
         return (
-          <div className="multiField">
+          <div className={`multiField ${this.props.className}`}>
               <div>
                 {values.map((value, index) => (
                     <MultiFieldLine

@@ -6,9 +6,11 @@ import StarRatingComponent from 'react-star-rating-component';
 
 import { movieManager } from 'MovieManager';
 
+import FormFieldSet from 'components/form/FormFieldSet';
 import FormFieldSetWithLabel from 'components/form/FormFieldSetWithLabel';
 import GenresField from 'components/form/GenresField';
 import MultiFieldInput from 'components/form/MultiFieldInput';
+import ActorField from 'components/form/ActorField';
 import MultiField from 'components/form/MultiField';
 
 import './addMovie.css'
@@ -20,6 +22,7 @@ const defaultMovieData = {
     year: '',
     color: '#FFFFFF',
     alternative_titles: [],
+    actors: [],
 };
 
 /**
@@ -56,11 +59,8 @@ class AddMovieSection extends React.Component {
     changeGenres = (genres) => this.changeField('genre', genres);
     changeRating = (rating) => this.changeField('rating', rating);
 
-    changeAlternateTitles = (alternateTitles) => {
-        this.setState({
-            movieData: Object.assign({}, this.state.movieData, { alternative_titles: alternateTitles }),
-        });
-    };
+    changeAlternateTitles = (alternateTitles) => this.changeField('alternative_titles', alternateTitles);
+    changeActors = (actors) => this.changeField('actors', actors);
 
     refreshExistingGenres = () => {
         movieManager.getAllGenres().then(genres => {
@@ -184,7 +184,21 @@ class AddMovieSection extends React.Component {
                         onChange={this.changeImage}
                     />
                 </FormFieldSetWithLabel>
-                <h2 className="addMovie-sectionTitle">Optional information</h2>
+                <h2 className="addMovie-sectionTitle">Actors</h2>
+                <FormFieldSet>
+                    <MultiField
+                        component={ActorField}
+                        componentProps={{
+                            id: 'addMovie-actor'
+                        }}
+                        defaultValue={{ name: '', image: '' }}
+                        isEmpty={(actor) => !actor.name && !actor.image}
+                        values={this.state.movieData.actors}
+                        onValueChange={this.changeActors}
+                        className="multiField-actors"
+                    />
+                </FormFieldSet>
+                <h2 className="addMovie-sectionTitle">Additional information</h2>
                 <FormFieldSetWithLabel
                     htmlFor="addMovie-alternate-titles-0"
                     label="Movie's alternate titles"
