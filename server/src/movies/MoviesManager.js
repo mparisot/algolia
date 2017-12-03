@@ -1,6 +1,7 @@
 const algoliasearch = require('algoliasearch');
 const fs = require('fs');
 const winston = require('winston');
+const sequential = require('promise-sequential');
 
 const { Movie, AlternativeTitle } = require('./MovieModel');
 const Genre = require('../genres/GenreModel');
@@ -66,18 +67,21 @@ class MoviesManager {
 
     add(movieData, options = { indexInAlgolia: true }) {
 
-        return Promise.all([
-            Movie.create(Object.assign({ objectID: Date.now() }, movieData)),
-            genresManager.bulkAdd(movieData.genre),
-            actorsManager.bulkAdd(movieData.actors),
-        ]).then(([movieModel, [...genreModels], [...actorsModels]]) => {
+        return sequential([
+            () => Movie.create(Object.assign({ objectID: Date.now() }, movieData)),
+            () => genresManager.bulkAdd(movieData.genre).then(genres => ({ genres })),
+            () => actorsManager.bulkAdd(movieData.actors).then(actors => ({ actors })),
+        ]).then(([movieModel, { genres: genreModels }, { actors: actorsModels }]) => {
+
             const genresIds = genreModels.map(genreModel => genreModel.dataValues.genreId);
             const actorsIds = actorsModels.map(actorModel => actorModel.dataValues.actorId);
 
-            return Promise.all([
-                ...movieData.alternative_titles.map(title => AlternativeTitle.create( {movieId: movieModel.dataValues.objectID, title: title} )),
-                movieModel.setGenres(genresIds),
-                movieModel.setActors(actorsIds),
+            const alternateTitles = movieData.alternative_titles.map(altTitle => ({ movieId: movieModel.dataValues.objectID, title: altTitle }));
+
+            return sequential([
+                () => AlternativeTitle.bulkCreate(alternateTitles),
+                () => movieModel.setGenres(genresIds),
+                () => movieModel.setActors(actorsIds),
             ]).then(([movie]) => movie);
         }).then((movie) => {
             winston.debug(' Movie created, adding it to algolia index', movie);
