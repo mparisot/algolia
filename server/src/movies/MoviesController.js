@@ -1,6 +1,8 @@
 const express = require('express');
 const winston = require('winston');
 
+const { manageErrors } = require('../utils/ControllerUtils');
+
 const moviesManager = require('./MoviesManager');
 
 const router = express.Router();
@@ -15,11 +17,14 @@ router.route('/movies/').get(function (req, res) {
 router.route('/movies/:movieId').get(function (req, res) {
     winston.info('Fetch a movie', { movieId: req.params.movieId });
     moviesManager.getById(req.params.movieId).then(movie => {
-        res.json(movie);
-    }).catch(err => {
-        winston.error('Error while fetching a movie', { params: req.body, error: err });
-        res.status(500).json(err)
-    });
+        if(!movie.objectID) res.statusCode(404).json({});
+        else res.json(movie);
+    }).catch(manageErrors.bind(null, res, {
+        messageToLog: 'Error while fetching a movie',
+        paramsToLog: {
+            params: req.params
+        }
+    }));
 });
 
 router.route('/movies/').post(function (req, res) {
@@ -39,10 +44,12 @@ router.route('/movies/').post(function (req, res) {
                 winston.debug('Adding movie', content);
                 res.json(content);
             })
-            .catch(err => {
-                winston.error('Error while adding a movie', { params: req.body, error: err });
-                res.status(500).json(err)
-            });
+            .catch(manageErrors.bind(null, res, {
+                messageToLog: 'Error while adding a movie',
+                paramsToLog: {
+                    params: req.body
+                }
+            }));
     }
 });
 
@@ -51,11 +58,12 @@ router.route('/movies/:movieId').delete(function (req, res) {
     winston.info('Deleting a movie', { movieId: req.params.movieId });
     moviesManager.del(req.params.movieId)
         .then(() => res.send({delete: true}))
-        .catch(err => {
-            winston.error('Error while deleting a movie', { params: req.params, error: err });
-            res.status(500).json(err)
-        });
-
+        .catch(manageErrors.bind(null, res, {
+            messageToLog: 'Error while deleting a movie',
+            paramsToLog: {
+                params: req.params
+            }
+        }));
 });
 
 module.exports = router;
