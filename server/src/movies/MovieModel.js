@@ -17,13 +17,17 @@ const Movie = sequelize.define('Movie', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    rating: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
     year: {
         type: Sequelize.INTEGER,
         allowNull: false,
+    },
+    rating: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+    },
+    color: {
+        type: Sequelize.STRING,
+        allowNull: true,
     },
 });
 

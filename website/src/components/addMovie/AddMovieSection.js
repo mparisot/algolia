@@ -18,6 +18,7 @@ const defaultMovieData = {
     image: '',
     genre: [],
     year: '',
+    color: '#FFFFFF',
     alternative_titles: [],
 };
 
@@ -51,6 +52,7 @@ class AddMovieSection extends React.Component {
     changeTitle = this.changeInputField.bind(this, 'title');
     changeYear = this.changeInputField.bind(this, 'year');
     changeImage = this.changeInputField.bind(this, 'image');
+    changeColor = this.changeInputField.bind(this, 'color');
     changeGenres = (genres) => this.changeField('genre', genres);
     changeRating = (rating) => this.changeField('rating', rating);
 
@@ -202,7 +204,18 @@ class AddMovieSection extends React.Component {
                         value={this.state.movieData.rating}
                         onStarClick={this.changeRating}
                     />
-                    <div className="addMovieSection-error">{this.state.errors.image}</div>
+                    <div className="addMovieSection-error">{this.state.errors.rating}</div>
+                </FormFieldSet>
+                <FormFieldSet>
+                    <label htmlFor="addMovie-color">Movie's dominant color theme</label>
+                    <input
+                        type="color"
+                        id="addMovie-color"
+                        className="addMovie-colorPicker"
+                        value={this.state.movieData.color}
+                        onChange={this.changeColor}
+                    />
+                    <div className="addMovieSection-error">{this.state.errors.color}</div>
                 </FormFieldSet>
                 <button className="addMovie-button" onClick={this.addMovie} disabled={!this.isFilled()}>Add the movie</button>
             </form>
