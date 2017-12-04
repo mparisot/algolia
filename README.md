@@ -17,6 +17,7 @@ This project is cut in 2 parts : the website that can run using webpack-dev-serv
 1. Go to the `server` directory
 2. Run `npm install`
 3. Create an `algoliaKey` file in the directory and put the algolia adamin key for the project
+`echo -n <yourKey> > algoliaKey`
 4. Run `npm run initDb` to init the Database and import the data in it
 
 You can now run the server with : 
