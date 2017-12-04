@@ -40,9 +40,12 @@ class AddMovieSection extends React.Component {
         errors: {}
     };
 
-
     componentWillMount() {
        this.refreshExistingGenres();
+    }
+
+    componentDidMount() {
+        this.section.scrollTop = 0;
     }
 
     changeField = (fieldName, value) => this.setState({
@@ -125,7 +128,6 @@ class AddMovieSection extends React.Component {
         });
 
         const actors = movieData.actors;
-        console.log('facet', actor.image ? `${actor.image}|${actor.name}` : '' );
         movieData.actors = actors.map(actor => ({ name: actor.name, facet: actor.image ? `${actor.image}|${actor.name}` : '' }));
 
         movieManager.add(movieData)
@@ -146,7 +148,7 @@ class AddMovieSection extends React.Component {
 
     render() {
         return (
-            <form className="section addMovieSection">
+            <form className="section addMovieSection" ref={(node) => this.section = node}>
                 <FormFieldSetWithLabel
                     htmlFor="addMovie-title"
                     label="Movie's title"
