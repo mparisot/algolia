@@ -125,7 +125,8 @@ class AddMovieSection extends React.Component {
         });
 
         const actors = movieData.actors;
-        movieData.actors = actors.map(actor => ({ name: actor.name, facet: `${actor.image}|${actor.name}` }));
+        console.log('facet', actor.image ? `${actor.image}|${actor.name}` : '' );
+        movieData.actors = actors.map(actor => ({ name: actor.name, facet: actor.image ? `${actor.image}|${actor.name}` : '' }));
 
         movieManager.add(movieData)
             .then(addedMovie => this.props.onAddMovie(addedMovie))
@@ -145,7 +146,7 @@ class AddMovieSection extends React.Component {
 
     render() {
         return (
-            <form className="addMovieSection">
+            <form className="section addMovieSection">
                 <FormFieldSetWithLabel
                     htmlFor="addMovie-title"
                     label="Movie's title"

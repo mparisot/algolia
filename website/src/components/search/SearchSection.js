@@ -50,7 +50,7 @@ class SearchSection extends React.Component {
 
     render() {
         return (
-            <div className="searchSection">
+            <div className="section searchSection">
                 <SearchBar onSearchResultsUpdated={this.updateSearchResult}/>
                 <SearchResults searchResults={this.state.searchResults} onDeleteResult={this.onDeleteResult} />
             </div>

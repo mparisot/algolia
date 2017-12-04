@@ -16,6 +16,7 @@ body {
 }
 
 .main  {
+    height:100vh;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -28,13 +29,17 @@ body {
     overflow: hidden;
 }
 
-.searchSection,
-.addMovieSection {
+.section {
     width: 100%;
     flex-shrink: 0;
     opacity: 0;
     z-index: -1;
     transition: opacity 200ms;
+    overflow: auto;
+}
+
+.section > * {
+    flex-shrink: 0;
 }
 
 .addMovieSection {
@@ -50,6 +55,7 @@ body {
 
 .sectionSwitch {
     align-self: flex-end;
+    flex-shrink: 0;
     margin: 10px;
     padding: 0 10px;
     height: 32px;
